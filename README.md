@@ -32,4 +32,4 @@ Join us on our slack workspace with this invite link: join intergrid.cat
 
 # License
 
-Apache 2.0
+[LICENSE](LICENSE) 
