@@ -22,7 +22,7 @@ First, clone the repository to your local machine. Open a terminal and run the f
 
 ```bash
 git clone https://github.com/intergridsl/kms.git /usr/local/kms
-'''
+```
 
 # Contributing
 
