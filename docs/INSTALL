@@ -1,0 +1,102 @@
+INTERGRID KMS SETUP INSTRUCTIONS
+--------------------------------
+
+How to setup a KMS server:
+
+1. Get a latest copy of KMS server. Unpack it on your home directory.
+2. Copy both /usr/local/kms and /usr/share/kms directories and files into your new KMS server.
+3. Install php, and apache with php and mysql support 
+
+   yum install httpd php php-mysql 
+
+   - It's not necessary to install mysql-server. You can use an external mysql server for KMS.
+   - It's either not necessary to install proftpd. You can use external FTP.
+  
+   ensure that apache starts everytime you restart the server:
+
+   chkconfig --level 2345 httpd on
+
+   don't forget to open 80 port...
+   iptables -A INPUT -p tcp -i eth0 --dport 80 -j ACCEPT
+
+   finaly restart httpd server:
+
+   /etc/init.d/httpd start
+ 
+4. Integration with Plesk
+
+   Its highly recommended but not strictly necessary to have Plesk hosted in different server.
+   To link both servers, follow this instructions:
+  
+   4.1. On plesk server, create an NFS mountpoint into /var/www/vhosts linked to your KMS server.
+   4.2. Don't forget to copy /var/www/vhosts/.skel directory to new NFS mountpoint
+   4.3. On kms server, create the appropiate plesk users:  psaserv,psaadm,psaftp
+
+
+	/etc/passwd must contain something like this:
+
+	psaftp:x:501:2521:anonftp psa user:/:/sbin/nologin
+	psadm:x:502:2521:Plesk user:/usr/local/psa/admin:/sbin/nologin
+
+	and /etc/group like this. group ID is be this!
+
+	psaadm:x:2521:psaadm
+	psaftp:x:2522:psaftp
+	psacln:x:2523:apache,psaftp,psaadm
+	psaserv:x:2524:
+
+	You can rename group names psacln and psaserv if you like. What you can't change is group id :
+
+	psaadm:x:2521:psaadm
+	psaftp:x:2522:psaftp
+	intergrid:x:2523:apache,psaftp,psaadm
+	kms:x:2524:
+
+	If you do that, just remember to change session directory with intergrid (psaserv) group:
+
+	chown root:intergrid /var/lib/php/session
+
+   4.4. Configure apache for kms :
+
+	edit /etc/httpd/conf/httpd.conf
+	* you can use this sample : /usr/local/kms/install/etc/httpd/conf/httpd.conf
+
+	copy yy_kms.conf and  zz_vhosts.conf that you will find into /usr/local/kms/install/etc/httpd/conf.d/ to /etc/httpd/conf.d/
+	
+	edit yy_kms.conf and  zz_vhosts.conf and change the ip of your kms server
+
+	copy and edit httpd.kms.include that you will find on /var/www/vhosts/kms.cat/conf/ for each virtual host into /var/www/vhosts/DOMAIN/conf/httpd.kms.include
+
+	* we use httpd.kms.include to ensure that plesk doesn't overwrite this file with default plesk httpd configuration.
+          this file, includes data subdomain and includes paths for kms.
+
+ 	test httpd configuration with: service httpd configtest
+
+    4.5. Syncronize your users to kms server with the same USERID that figures on Plesk server
+
+	useradd  -u USERID -p PASSWORD -s /bin/false -g 2523 -d /var/www/vhosts/DOMAIN USERNAME
+
+    4.6. Add permanent ssh keys to plesk server, so it doesn't require user enter password by stdin
+
+	 genereate on plesk server a key:
+	  ssh-keygen -t dsa
+
+	 copy this key to kms server:	
+	 ssh root@a1.intergridnetwork.net "echo `ssh cp.intergridnetwork.net cat /root/.ssh/id_dsa.pub` >> .ssh/authorized_keys"
+
+	 now you will be able to do ssh kmsserver without entering the password. This will let execute plesk event scripts.
+
+5. Install Pear for Mail/SMTP Auth libraries
+
+  yum install php-pear
+ 
+  pear upgrade --alldeps pear
+
+  pear install Mail;pear install Net_SMTP;pear install Auth_SASL;
+
+ Add the include path your php.ini 
+
+	include_path = ".:/usr/share/pear"
+
+  In /usr/share/pear there must exist the Mail directory  (or where ever is installed pear. You can see it executing pear config-get php_dir).
+

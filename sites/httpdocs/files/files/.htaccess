@@ -1,0 +1,3 @@
+order allow,deny
+Options +Indexes
+Satisfy Any

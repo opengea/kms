@@ -1,0 +1,805 @@
+<?
+// ----------------------------------------------
+// Intergrid KMS Cloud Hosting Manager Tool
+// By Jordi Berenguer <j.berenguer@intergrid.cat>
+// www.intergrid.cat
+// ----------------------------------------------
+
+// Constants
+$bytes2Gb=1073741824;
+
+// Setup
+$used_color="#00A0ff";
+$used_color2="#0070cf";
+$extra_color="#f00";
+$freemin_color="#e0efff";
+$freemin_color2="#B0BBE0";
+$freemax_color="#a2efff";
+$freemax_color2="#7ABBEC";
+
+// Bottoms i Tops per cloud hosting
+$bottom_space=1;$top_space=100;
+$bottom_transfer=10;$top_transfer=500;
+$bottom_vhosts=1;$top_vhosts=50;
+$bottom_mailboxes=0;$top_mailboxes=300;
+$bottom_subdomains=0;$top_subdomains=300;
+$bottom_databases=1;$top_databases=150;
+$bottom_ftps=1;$top_ftps=300;
+
+// Get Hosting params
+
+if ($_GET['id']=="") {
+	$new=true;
+	// NEW HOSTING. Take the standard values
+	$hosting=$this->dbi->get_record("select * from kms_isp_hostings_plans where name=\"Cloud Hosting Standard\"");
+	$space_used=0;
+	$transfer_used=0;
+	$mailboxes_used=0;
+	$vhosts_used=0;
+	$subdomains_used=0;
+	$databases_used=0;
+	$ftps_used=0;
+	
+} else {
+	$new=false;
+	$select="select * from kms_isp_hostings where id=".$_GET['id'];
+	$res=mysqli_query($select);
+	$hosting=mysqli_fetch_array($res);
+
+	// Get current usage 
+	if (date('Y-m')!=$_REQUEST['date'])  {
+	// el script serveix per consultar dates passades... si hi ha dades.
+	//$select2="select * from kms_isp_hostings_log where hplan_id=".$hosting['id']." and date like '".date('Y-m')."%'";
+	//$res=mysqli_query($select2);
+	//$hosting_log=mysqli_fetch_array($res);
+	$hosting_log=$hosting;
+	} else {
+	$hosting_log=$hosting;
+	}
+
+	// RECURSOS UTILITZATS
+	$space_used=round($hosting_log['used_space']/$bytes2Gb);
+	$transfer_used=round($hosting_log['used_transfer']/$bytes2Gb);
+	$vhosts_used=$hosting_log['used_vhosts'];
+	$mailboxes_used=$hosting_log['used_mailboxes'];
+	
+	// LIMIT DE CONTRACTE
+	$max_space=$hosting_log['max_space']/$bytes2Gb;
+	$max_transfer=$hosting_log['max_transfer']/$bytes2Gb;
+	$max_vhosts=$hosting_log['max_vhosts'];
+	$max_mailboxes=$hosting_log['max_mailboxes'];
+}
+if (!is_numeric($mailboxes_used)) $mailboxes_used=0;
+if (!is_numeric($vhosts_used)) $vhosts_used=1;
+
+// LIMIT DE CONTRACTE (PERCENTATGE)
+$max_space_pc=round(($max_space*100)/$top_space);
+$max_transfer_pc=round(($max_transfer*100)/$top_transfer);
+$max_vhosts_pc=round(($max_vhosts*100)/$top_vhosts);
+$max_mailboxes_pc=round(($max_mailboxes*100)/$top_mailboxes);
+
+// NEEDED?
+$ratio_space=1; // 1 a 1
+$ratio_transfer=5; // x5
+$ratio_vhosts=0.5; //la meitat
+$ratio_mailboxes=$top_mailboxes/$top_space;
+$ratio_subdomains=$top_subdomains/$top_space;
+$ratio_databases=$top_databases/$top_space;
+$ratio_ftps=$top_ftps/$top_space;
+
+// RECURSOS UTILITZATS (PERCENTATGE)
+$space_used_pc=round(($space_used*100)/$top_space);
+$transfer_used_pc=round(($transfer_used*100)/$top_transfer);
+$vhosts_used_pc=round(($vhosts_used*100)/$top_vhosts);
+$mailboxes_used_pc=round(($mailboxes_used*100)/$top_mailboxes);
+
+?>
+<script language="javascript">
+//Set global limits
+bottom_space=<?=$bottom_space?>;top_space=<?=$top_space?>;
+bottom_transfer=<?=$bottom_transfer?>;top_transfer=<?=$top_transfer?>;
+bottom_vhosts=<?=$bottom_vhosts?>;top_vhosts=<?=$top_vhosts?>;
+bottom_mailboxes=<?=$bottom_mailboxes?>;top_mailboxes=<?=$top_mailboxes?>;
+//Set ratios
+ratio_space=<?=$ratio_space?>;
+ratio_transfer=<?=$ratio_transfer?>;
+ratio_vhosts=<?=$ratio_vhosts?>;
+
+	function setLimits(name,min,max,step) {
+		$('input#min_'+name).val(min);
+		$('#'+name).slider("option","min",0);
+		$('#'+name).slider("option","max",max);
+		$('#'+name).slider("option","step",step);
+	}
+	function changeplan(value) {
+		if (value=="start") { 
+		setLimits('limit_space',1,5,1);
+		setLimits('limit_transfer',5,20,1);
+		setLimits('limit_mailboxes',0,10,1);
+		setLimits('limit_vhosts',1,5,1);
+		}
+		else if (value=="standard") { 
+                setLimits('limit_space',5,25,1);
+                setLimits('limit_transfer',10,150,1);
+                setLimits('limit_mailboxes',0,50,1);
+                setLimits('limit_vhosts',1,10,1);
+                }
+		else if (value=="pro") {
+                setLimits('limit_space',10,50,1);
+                setLimits('limit_transfer',30,500,1);
+                setLimits('limit_mailboxes',0,100,1);
+                setLimits('limit_vhosts',1,20,1);
+                }
+		else if (value=="business") { 
+                setLimits('limit_space',30,75,1);
+                setLimits('limit_transfer',30,500,1);
+                setLimits('limit_mailboxes',0,300,1);
+                setLimits('limit_vhosts',1,30,1);
+                }
+		else if (value=="enterprise") {
+                setLimits('limit_space',50,100,1);
+                setLimits('limit_transfer',30,500,1);
+                setLimits('limit_mailboxes',0,500,1);
+                setLimits('limit_vhosts',1,50,1);
+                }
+
+		$('#limit_space').slider('value',0);
+		$('#limit_transfer').slider('value',0);
+		$('#limit_mailboxes').slider('value',0);
+		$('#limit_vhosts').slider('value',0);
+	}
+	function configure(value,pc,name) {
+
+//		pc=((value-$('#limit_'+name).slider('value'))*100)/($('#limit_'+name).slider('options','max')-$('#limit_'+name).slider('value'));
+//		value=checkLimitis(value,pc,name);
+		value=checkLimits(value,$('#min_'+name).val(),name);
+		if (name=='limit_space') {
+				if (value<$('#limit_vhosts').slider('value')) {
+//						$('#infonote').html("L'espai minim permes per allotjar "+$('input#max_vhosts').val()+" domini/s es de "+$('input#max_space').val()/1024/1024/1024+" GB"); 
+//						$('#infonote').slideToggle('slow');
+						$('#limit_vhosts').slider('value',$('#limit_vhosts').slider('value')); 
+						value=$('#limit_vhosts').slider('value');
+//						clearTimeout(timer);
+//						timer=setTimeout("$('#infonote').slideToggle('slow');",5000);
+						}
+				//setResources(value,pc,name);
+				$('input#new_max_space').val(value);
+				$('input#space').val(value); //$('input#max_space').val());
+//				$('#explain_space').html('<?=round($space_used)?> of '+$('input#max_space').val());//<?=bytes($hosting_log['max_space'])?>');// '+$('input#max_space').val());
+		} else if (name=='limit_transfer') {
+				$('input#max_transfer').val(value);
+				$('input#transfer').val($('input#max_transfer').val());
+//				$('#explain_transfer').html('<?=round($transfer_used)?> of '+$('input#max_transfer').val());//<?=bytes($hosting_log['max_transfer'])?>');
+
+		} else if (name=='limit_vhosts') {
+//				if ($('#limit_space').slider('value')<value) {
+//						$('#limit_space').slider('value',value);
+//						//setResources(value,pc,name);
+//				}
+//				pc_space=((<?=$space_used?>*100)/<?=$top_space?>);
+				//checkLimits($('#limit_space').slider('value'),pc_space,'limit_space');
+				$('input#max_vhosts').val(value);
+				$('input#vhosts').val($('input#max_vhosts').val());
+//				$('#explain_vhosts').html('<?=$vhosts_used?> of '+$('input#max_vhosts').val()); //<?=$hosting_log['max_vhosts']?>');
+		} else if (name=='limit_mailboxes') {
+				$('input#max_mailboxes').val(value);
+				$('input#mailboxes').val($('input#max_mailboxes').val());
+		}
+
+		timer=setTimeout("fillSliders()",1);//	fillSliders();
+		setQuota();
+		updateForm();	
+	}
+
+	function updateForm() {
+		max_space_bytes=$('#limit_space').slider('value');
+		max_transfer_bytes=$('#limit_transfer').slider('value');
+		max_space_bytes=max_space_bytes*<?=$bytes2Gb?>;
+		max_transfer_bytes=max_transfer_bytes*<?=$bytes2Gb?>;
+		$('input#max_space').val(max_space_bytes);
+		$('input#max_transfer').val(max_transfer_bytes); //$('#limit_transfer').slider('value'));
+		$('input#max_vhosts').val($('#limit_vhosts').slider('value'));
+	}
+
+	function warnShow(msg) {
+		$('#warn').html(msg); 
+                if (document.actiu) $('#warn').show('fast');
+	}
+
+	function checkLimits(value,min,name) {
+		if (name=="limit_space") used=<?=$space_used?>;
+		else if (name=="limit_transfer") used=<?=$transfer_used?>;
+		else if (name=="limit_mailboxes") used=<?=$mailboxes_used?>;
+		else if (name=="limit_vhosts") used=<?=$vhosts_used?>;
+
+		if (name=="limit_space"||name=="limit_transfer") unit="GB"; 
+		else if (name=="limit_vhosts") unit="<?=strtolower(_KMS_TY_ISP_DOMAINS)?>";
+		else unit="";
+		
+		if (value<min) { 
+			//$('#'+name).draggable( 'option',  'revert', true ).trigger( 'mouseup' );
+			$('#'+name).trigger("mouseup");
+			timer=setTimeout("$('#"+name+"').slider('value',"+min+")",1);		
+			timer2=setTimeout("warnShow('<?=_KMS_ISP_HOSTING_MANAGE_WARN1?> "+min+" "+unit+" <?=_KMS_ISP_HOSTING_MANAGE_WARN2?>')",100);
+			return min; 
+		} else if (value<used) {
+//			$('#'+name).trigger("mouseup");
+                        //timer=setTimeout("$('#"+name+"').slider('value',"+used+")",200);           
+                        timer2=setTimeout("warnShow('<?=_KMS_ISP_HOSTING_MANAGE_WARN3?>"+used+" "+unit+")')",500);
+                        return used;
+		} else { 
+			$('#warn').html('');$('#warn').hide();
+		} 
+		return value;
+	}
+	function setQuota() {
+		period=$('#periodicitat').val();
+
+		if (period=="year") { period_text="<?=_KMS_GL_YEAR_U?>"; months=12; months_discount=11; discount="1 mes de descompte"; }
+		else if (period=="quarter") { period_text="<?=_KMS_GL_QUARTER_U?>"; months=3; months_discount=2.9; discount="1 setmana de descompte";  }
+		else if (period=="month") { period_text="<?=_KMS_GL_MONTHLY_U?>"; months=1; months_discount=0; }
+		espai=$('#limit_space').slider('value');
+		transferencia=$('#limit_transfer').slider('value');
+		vhosts=$('#limit_vhosts').slider('value');
+		mailboxes=$('#limit_mailboxes').slider('value');
+		<?//formula. parametres de la quota?>
+		f_space=0.7; f_transfer=0.2; f_vhosts=1.3; f_mailboxes=0.05; <?// per donar mes o menys pes a determinats parametres ?>
+		a=-0.0001;b=0.5;c=0; <? // funcio quadratica y=ax^2+bx+c ?>
+		<?//----?>
+		x=f_space*espai+f_transfer*transferencia+f_vhosts*vhosts+f_mailboxes*mailboxes;
+		quota_mes = Math.pow(a*x,2)+b*x+c;
+		max_resources=f_space*top_space+f_transfer*top_transfer+f_vhosts*top_vhosts+f_mailboxes*top_mailboxes;
+		max_x=-b/(2*a); max_y=c-(Math.pow(b,2)/4*a);
+		<?//el vertex de la funcio quadratica es el limit maxim de recursos i preu?>
+                if (max_resources>max_x) alert ('funcio quota mal calculada. El punt maxim es troba dins del recorregut '+max_resources+'>'+max_x);
+//		$('#debug').html('x:'+x+' y:'+quota_mes+' (max x:'+max_x+',y:'+max_y);
+		quota=quota_mes*months;
+
+		if (months_discount>0) {
+			quota_discount=quota_mes*months_discount;
+			estalvi=quota-quota_discount;
+			quota_discount=Math.round(quota_discount*Math.pow(10,2))/Math.pow(10,2);
+			estalvi=Math.round(estalvi*Math.pow(10,2))/Math.pow(10,2); 
+			quota_show=quota_discount;
+		} else {
+			quota=Math.round(quota*Math.pow(10,2))/Math.pow(10,2);
+			quota_show=quota;
+		}
+
+		$('#quota').html(quota_show+"<span style='font-size:13px;padding-top:7px'> &euro;/"+period_text.toLowerCase()+"</span>");
+		if (months_discount!=0) {
+			$('#custom_quota').css('height','55px'); 
+			if (period=="quarter") estalvi_anual=estalvi*4; else estalvi_anual=estalvi;
+			discount="-"+estalvi_anual+"&euro; d'estalvi anual";
+			$('#quota_discount').html(discount);
+			$('#quota_discount').show();	
+		}  else {
+			$('#custom_quota').css('height','40px');
+			$('#quota_discount').hide();
+		}
+	}
+/*	function setResources(value,pc,name) {
+		mailboxes_val=Math.round(((value*<?=$ratio_mailboxes?>)+1));
+		mailboxes_pc=((mailboxes_val*100)/<?=$top_mailboxes?>);
+		mailboxes_used_pc=((<?=$mailboxes_used?>*100)/<?=$top_mailboxes?>);
+		if (mailboxes_pc>100) mailboxes_pc=100;
+		$('#limit_mailboxes').css("background-image","-webkit-linear-gradient(left, <?=$used_color?> 0px, <?=$used_color?> "+mailboxes_used_pc+"%,#D6DDE5 "+mailboxes_used_pc+"%, #0f0 "+mailboxes_pc+"%,#D6DDE5 "+mailboxes_pc+"%)");
+
+		subdomains_val=Math.round(((value*<?=$ratio_subdomains?>)+1));
+                subdomains_pc=((subdomains_val*100)/<?=$top_subdomains?>);
+                subdomains_used_pc=((<?=$subdomains_used?>*100)/<?=$top_subdomains?>);
+		if (subdomains_pc>100) subdomains_pc=100;
+                $('#limit_subdomains').css("background-image","-webkit-linear-gradient(left, <?=$used_color?> 0px, <?=$used_color?> "+subdomains_used_pc+"%,#D6DDE5 "+subdomains_used_pc+"%, #0f0 "+subdomains_pc+"%,#D6DDE5 "+subdomains_pc+"%)");
+	
+		databases_val=Math.round(((value*<?=$ratio_databases?>)+1));
+                databases_pc=((databases_val*100)/<?=$top_databases?>);
+                databases_used_pc=((<?=$databases_used?>*100)/<?=$top_databases?>);
+		if (databases_pc>100) databases_pc=100;
+                $('#limit_databases').css("background-image","-webkit-linear-gradient(left, <?=$used_color?> 0px, <?=$used_color?> "+databases_used_pc+"%,#D6DDE5 "+databases_used_pc+"%, #0f0 "+databases_pc+"%,#D6DDE5 "+databases_pc+"%)");
+
+		ftps_val=Math.round(((value*<?=$ratio_ftps?>)+1));
+                ftps_pc=((ftps_val*100)/<?=$top_ftps?>);
+                ftps_used_pc=((<?=$ftps_used?>*100)/<?=$top_ftps?>);
+		if (ftps_pc>100) ftps_pc=100;
+                $('#limit_ftps').css("background-image","-webkit-linear-gradient(left, <?=$used_color?> 0px, <?=$used_color?> "+ftps_used_pc+"%,#D6DDE5 "+ftps_used_pc+"%, #0f0 "+ftps_pc+"%,#D6DDE5 "+ftps_pc+"%)");
+	}
+*/
+	function paint(colors) {
+		s="";
+		for (i=0; i<colors.length; i++) {
+			s+=colors[i][0]+" "+colors[i][1]+",";
+		}
+		s=s.substr(0,s.length-1);
+		return s;
+	}
+
+        function fillSliders() {
+
+		<? /*** SPACE ****/ ?>
+		max_space_pc=((($('#max_space').val()/<?=$bytes2Gb?>)-$('#limit_space').slider('option','min'))*100)/($('#limit_space').slider('option','max')-$('#limit_space').slider('option','min'));
+		new_max_space_pc=(($('#new_max_space').val()-$('#limit_space').slider('option','min'))*100)/($('#limit_space').slider('option','max')-$('#limit_space').slider('option','min'));
+		space_used_pc=(<?=$space_used?>*100)/$('#limit_space').slider('option','max');
+                colors=Array();
+                if (space_used_pc>max_space_pc) {
+			colors[0]=Array();
+			colors[0][0]="<?=$used_color?>";
+			colors[0][1]="0%";
+			colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=max_space_pc+"%";
+
+			colors[2]=Array();
+                        colors[2][0]="<?=$extra_color?>";
+                        colors[2][1]=max_space_pc+"%";
+			colors[3]=Array();
+                        colors[3][0]="<?=$extra_color?>";
+                        colors[3][1]=space_used_pc+"%";
+
+                        colors[4]=Array();
+                        colors[4][0]="<?=$freemax_color?>";
+                        colors[4][1]=space_used_pc+"%"
+                        colors[5]=Array();
+                        colors[5][0]="<?=$freemax_color2?>";
+                        colors[5][1]=new_max_space_pc+"%";
+			colors[6]=Array();
+                        colors[6][0]="#fff";
+                        colors[6][1]=new_max_space_pc+"%";
+			colors[7]=Array();
+                        colors[7][0]="#fff";
+                        colors[7][1]="100%";
+		} else {
+			colors[0]=Array();
+                        colors[0][0]="<?=$used_color?>";
+                        colors[0][1]="0%";
+                        colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=space_used_pc+"%"
+                        colors[2]=Array();
+                        colors[2][0]="<?=$freemax_color?>";
+                        colors[2][1]=space_used_pc+"%"
+                        colors[3]=Array();
+                        colors[3][0]="<?=$freemax_color2?>";
+                        colors[3][1]=max_space_pc+"%";
+                        colors[4]=Array();
+                        colors[4][0]="#fff";
+                        colors[4][1]=max_space_pc+"%";
+                        colors[5]=Array();
+                        colors[5][0]="#fff";
+                        colors[5][1]="100%";
+		}
+		estil=paint(colors);
+		$('#limit_space').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -webkit-linear-gradient(left, "+estil+")");
+		$('#limit_space').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -moz-linear-gradient(left, "+estil+")");
+
+               <? /*** TRANSFER ****/ ?>
+                max_transfer_pc=((($('#max_transfer').val()/<?=$bytes2Gb?>)-$('#limit_transfer').slider('option','min'))*100)/($('#limit_transfer').slider('option','max')-$('#limit_transfer').slider('option','min'));
+                new_max_transfer_pc=(($('#new_max_transfer').val()-$('#limit_transfer').slider('option','min'))*100)/($('#limit_transfer').slider('option','max')-$('#limit_transfer').slider('option','min'));
+                transfer_used_pc=(<?=$transfer_used?>*100)/$('#limit_transfer').slider('option','max');
+                colors=Array();
+                if (transfer_used_pc>max_transfer_pc) {
+                        colors[0]=Array();
+                        colors[0][0]="<?=$used_color?>";
+                        colors[0][1]="0%";
+                        colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=max_transfer_pc+"%";
+
+                        colors[2]=Array();
+                        colors[2][0]="<?=$extra_color?>";
+                        colors[2][1]=max_transfer_pc+"%";
+                        colors[3]=Array();
+                        colors[3][0]="<?=$extra_color?>";
+                        colors[3][1]=transfer_used_pc+"%";
+
+                        colors[4]=Array();
+                        colors[4][0]="<?=$freemax_color?>";
+                        colors[4][1]=transfer_used_pc+"%"
+                        colors[5]=Array();
+                        colors[5][0]="<?=$freemax_color2?>";
+                        colors[5][1]=new_max_transfer_pc+"%";
+                        colors[6]=Array();
+                        colors[6][0]="#fff";
+                        colors[6][1]=new_max_transfer_pc+"%";
+                        colors[7]=Array();
+                        colors[7][0]="#fff";
+                        colors[7][1]="100%";
+                } else {
+                        colors[0]=Array();
+                        colors[0][0]="<?=$used_color?>";
+                        colors[0][1]="0%";
+                        colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=transfer_used_pc+"%"
+                        colors[2]=Array();
+                        colors[2][0]="<?=$freemax_color?>";
+                        colors[2][1]=transfer_used_pc+"%"
+                        colors[3]=Array();
+                        colors[3][0]="<?=$freemax_color2?>";
+                        colors[3][1]=max_transfer_pc+"%";
+                        colors[4]=Array();
+                        colors[4][0]="#fff";
+                        colors[4][1]=max_transfer_pc+"%";
+                        colors[5]=Array();
+                        colors[5][0]="#fff";
+                        colors[5][1]="100%";
+                }
+                estil=paint(colors);
+                $('#limit_transfer').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -webkit-linear-gradient(left, "+estil+")");
+                $('#limit_transfer').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -moz-linear-gradient(left, "+estil+")");
+
+		<? /*** MAILBOXES ****/ ?>
+  
+                max_mailboxes_pc=((($('#max_mailboxes').val())-$('#limit_mailboxes').slider('option','min'))*100)/($('#limit_mailboxes').slider('option','max')-$('#limit_mailboxes').slider('option','min'));
+                new_max_mailboxes_pc=(($('#new_max_mailboxes').val()-$('#limit_mailboxes').slider('option','min'))*100)/($('#limit_mailboxes').slider('option','max')-$('#limit_mailboxes').slider('option','min'));
+                mailboxes_used_pc=(<?=$mailboxes_used?>*100)/$('#limit_mailboxes').slider('option','max');
+                colors=Array();
+                if (mailboxes_used_pc>max_mailboxes_pc) {
+                        colors[0]=Array();
+                        colors[0][0]="<?=$used_color?>";
+                        colors[0][1]="0%";
+                        colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=max_mailboxes_pc+"%";
+
+                        colors[2]=Array();
+                        colors[2][0]="<?=$extra_color?>";
+                        colors[2][1]=max_mailboxes_pc+"%";
+                        colors[3]=Array();
+                        colors[3][0]="<?=$extra_color?>";
+                        colors[3][1]=mailboxes_used_pc+"%";
+
+                        colors[4]=Array();
+                        colors[4][0]="<?=$freemax_color?>";
+                        colors[4][1]=mailboxes_used_pc+"%"
+                        colors[5]=Array();
+                        colors[5][0]="<?=$freemax_color2?>";
+                        colors[5][1]=new_max_mailboxes_pc+"%";
+                        colors[6]=Array();
+                        colors[6][0]="#fff";
+                        colors[6][1]=new_max_mailboxes_pc+"%";
+                        colors[7]=Array();
+                        colors[7][0]="#fff";
+                        colors[7][1]="100%";
+                } else {
+                        colors[0]=Array();
+                        colors[0][0]="<?=$used_color?>";
+                        colors[0][1]="0%";
+                        colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=mailboxes_used_pc+"%"
+                        colors[2]=Array();
+                        colors[2][0]="<?=$freemax_color?>";
+                        colors[2][1]=mailboxes_used_pc+"%"
+                        colors[3]=Array();
+                        colors[3][0]="<?=$freemax_color2?>";
+                        colors[3][1]=max_mailboxes_pc+"%";
+                        colors[4]=Array();
+                        colors[4][0]="#fff";
+                        colors[4][1]=max_mailboxes_pc+"%";
+                        colors[5]=Array();
+                        colors[5][0]="#fff";
+                        colors[5][1]="100%";
+                }
+                estil=paint(colors);
+                $('#limit_mailboxes').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -webkit-linear-gradient(left, "+estil+")");
+                $('#limit_mailboxes').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -moz-linear-gradient(left, "+estil+")");
+
+		<? /*** VHOSTS ****/ ?>
+                max_vhosts_pc=((($('#max_vhosts').val())-$('#limit_vhosts').slider('option','min'))*100)/($('#limit_vhosts').slider('option','max')-$('#limit_vhosts').slider('option','min'));
+                new_max_vhosts_pc=(($('#new_max_vhosts').val()-$('#limit_vhosts').slider('option','min'))*100)/($('#limit_vhosts').slider('option','max')-$('#limit_vhosts').slider('option','min'));
+                vhosts_used_pc=(<?=$vhosts_used?>*100)/$('#limit_vhosts').slider('option','max');
+                colors=Array();
+                if (vhosts_used_pc>max_vhosts_pc) {
+                        colors[0]=Array();
+                        colors[0][0]="<?=$used_color?>";
+                        colors[0][1]="0%";
+                        colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=max_vhosts_pc+"%";
+
+                        colors[2]=Array();
+                        colors[2][0]="<?=$extra_color?>";
+                        colors[2][1]=max_vhosts_pc+"%";
+                        colors[3]=Array();
+                        colors[3][0]="<?=$extra_color?>";
+                        colors[3][1]=vhosts_used_pc+"%";
+
+                        colors[4]=Array();
+                        colors[4][0]="<?=$freemax_color?>";
+                        colors[4][1]=vhosts_used_pc+"%"
+                        colors[5]=Array();
+                        colors[5][0]="<?=$freemax_color2?>";
+                        colors[5][1]=new_max_vhosts_pc+"%";
+                        colors[6]=Array();
+                        colors[6][0]="#fff";
+                        colors[6][1]=new_max_vhosts_pc+"%";
+                        colors[7]=Array();
+                        colors[7][0]="#fff";
+                        colors[7][1]="100%";
+                } else {
+                        colors[0]=Array();
+                        colors[0][0]="<?=$used_color?>";
+                        colors[0][1]="0%";
+                        colors[1]=Array();
+                        colors[1][0]="<?=$used_color2?>";
+                        colors[1][1]=vhosts_used_pc+"%"
+                        colors[2]=Array();
+                        colors[2][0]="<?=$freemax_color?>";
+                        colors[2][1]=vhosts_used_pc+"%"
+                        colors[3]=Array();
+                        colors[3][0]="<?=$freemax_color2?>";
+                        colors[3][1]=max_vhosts_pc+"%";
+                        colors[4]=Array();
+                        colors[4][0]="#fff";
+                        colors[4][1]=max_vhosts_pc+"%";
+                        colors[5]=Array();
+                        colors[5][0]="#fff";
+                        colors[5][1]="100%";
+                }
+                estil=paint(colors);
+                $('#limit_vhosts').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -webkit-linear-gradient(left, "+estil+")");
+                $('#limit_vhosts').css("background-image","url('/kms/css/aqua/img/interface/slider_bg.png'), -moz-linear-gradient(left, "+estil+")");
+
+	}
+
+</script>
+<?
+function drawIndex($class,$value,$min,$max,$top,$unit,$name,$segments) {
+	$used_color="#00a0ff";
+/*	$s="<div class=\"slider_index seg_$segments\">";
+	$interval=$top/$segments;
+	$n=$min;
+	$show_unit=$unit;
+	for ($i=0;$i<=$segments;$i++) {
+		$s.="<div class=\"slider_tab seg_$segments\">".$n."".$show_unit."</div>";
+	  	if ($n==$min) {$show_unit="";$n=0;}
+		$n+=$interval;
+		if ($n==$top) $show_unit=$unit;
+	}
+	$s.="</div>";*/
+	$pc=(($value*100)/$top);
+	$max_pc = (($max*100/$top));
+	if ($class=="fix") $bgcolor="#D6DDE5"; else $bgcolor="#fff";
+	$s.="<div class=\"slider $class\" id=\"$name\" style=\"background-image:-webkit-linear-gradient(left, ".$used_color." 0px, ".$used_color." ".$pc."%,$bgcolor ".$pc."%);\"></div>";
+	$s.="<script>function fix_$name() { $('#$name').slider('value',$max_pc); } setTimeout(\"fix_$name()\",500);";
+	$step=$segments*.25;
+	if ($segments==20) $step=5;
+	else if ($segments==10) $step=10;
+	$s.="$('#$name').slider({ step:".$step.",change: function(event, ui) { configure(ui.value,$pc,'$name'); },slide: function(event, ui) { configure(ui.value,$pc,'$name'); }});";
+	$s.="</script>";
+	return $s;
+}
+
+?>
+<h2><?
+
+//if ($_GET['action']=="new_hosting") echo _KMS_ISP_HOSTINGS_NEW; else echo _KMS_ISP_HOSTINGS_MANAGE
+echo _KMS_ISP_HOSTING_MANAGE.": ";
+$title=_KMS_ISP_HOSTING_.strtoupper($_REQUEST['type']);
+echo constant($title);
+
+?>
+</h2>
+
+<span style="font-size:13px"><?=_KMS_ISP_HOSTINGS_CH_MANAGE?></span>
+<br><br><table class="limits">
+<tr>
+    <td class="slider_name"><b><?=_KMS_ISP_HOSTING_PLAN?></b></td>
+    <td>
+	<table>
+	<tr>	<td>
+		<div id="plans_description" style="margin-left:0px">
+		<table width="550"><tr><td width=100 style="padding-left:0px"><input type="radio" value="start" name="pla" onchange="changeplan(this.value)">Start</td><td width=110><input type="radio" value="standard" name="pla" onchange="changeplan(this.value)" checked>Standard</td><td width=90><input type="radio" value="pro" name="pla" onchange="changeplan(this.value)">Pro</td><td><input type="radio" value="business" name="pla" onchange="changeplan(this.value)">Business</td><td width=123><input type="radio" value="enterprise" name="pla" onchange="changeplan(this.value)">Enterprise</td></tr></table>
+		</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=8><div class="slider2" style='margin-left:0px' id="hplan_id"></div></td>
+	</tr>
+	</table>
+
+    </td>
+    <td></td>
+</tr>
+<tr class="sep2">
+
+     <td class="slider_name" style="vertical-align:top;padding-top:15px"><?=_KMS_ISP_HOSTINGS_FEATURES?></td>
+     <td style="text-align:center">
+<div class="notice"><a href="#" onclick="$('#full_features').slideToggle('fast');setTimeout('refreshUI()',200);"><?=_KMS_ISP_HOSTINGS_SEE_FEATURES?></a></div><div id="full_features" style="display:none"><br>
+		<table width="560" border="0">
+		<tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_AVAILABILITY?></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_OS?></td><td><?=_KMS_ISP_HOSTING_FEATURE_OS_EXPLAIN?></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_BANDWIDTH?></td><td><?=_KMS_ISP_HOSTING_FEATURE_BANDWIDTH_EXPLAIN?></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_AVAIL?></td><td><?=_KMS_ISP_HOSTING_FEATURE_SLA_EXPLAIN?></td></tr>
+
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_PERFORMANCE?></td><td><?=_KMS_ISP_HOSTING_FEATURE_PERFORMANCE_EXPLAIN?></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_DC?></td><td><?=_KMS_ISP_HOSTING_FEATURE_DC_EXPLAIN?></td></tr>
+		<tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_EMAIL?></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_MAILQUOTA?></td><td><?=_KMS_ISP_HOSTING_FEATURE_MAILQUOTA_EXPLAIN?></td></tr>
+
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_WEBMAIL?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_EMAIL_ALIAS?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+	        <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_EMAIL_AUTORESPONDER?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_ANTISPAM?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_ANTIVIRUS?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+
+		<tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_WEBSPACE?></td></tr>
+
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_WEBFORWARDING?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_DNS?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_FTPS?></td><td><?=_KMS_ISP_HOSTING_FEATURE_FTPS_EXPLAIN?></td></tr>
+
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_SUBDOMAINS?></td><td><?=_KMS_ISP_HOSTING_FEATURE_SUBDOMAINS_EXPLAIN?></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_MULTIDOMAIN?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_FILEMANAGER?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+               <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_CONTROLPANEL?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_DIP?></td><td>--</td></tr>
+                <tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_PRO?></td></tr>
+
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_PROGRAMMING?></td><td><?=_KMS_ISP_HOSTING_FEATURE_PROGRAMMING_EXPLAIN?></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_DATABASES?></td><td><?=_KMS_ISP_HOSTING_FEATURE_DATABASES_EXPLAIN?></td></tr>
+	        <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_CRONTABLES?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_ERRORPAGES?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_CMS_COMPATIBLE?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_FLASH_COMPATIBLE?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_DIRHTACCESS?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_SSH?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+
+                <tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_WARANTY?></td></tr>
+
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_SLA?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_SUPPORT?></td><td><?=_KMS_ISP_HOSTING_FEATURE_SUPPORT_EXPLAIN?></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_30DAYSW?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_SECURITY?></td></tr>
+
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_BACKUPS?></td><td><?=_KMS_ISP_HOSTING_FEATURE_BACKUPS_EXPLAIN?></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_DIRPERM?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_DIRPROT?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_CERT?></td><td><?=_KMS_GL_OPTIONAL?></td></tr>
+
+                <tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_WEBSITES?></td></tr>
+
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_KMS_SITES?></td><td><?=_KMS_GL_OPTIONAL?></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_KMS_ECOM?></td><td><?=_KMS_GL_OPTIONAL?></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_KMS_SITES_CUSTOM?></td><td><?=_KMS_GL_OPTIONAL?></td></tr>
+                <tr class="group"><td colspan=2><?=_KMS_ISP_HOSTINGS_F_MARKETING?></td></tr>
+
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_WEBSTATS?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_SEARCHENGINES?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+                <tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_SITEMAPS?></td><td><img src='/kms/css/aqua/img/small/check2.gif'></td></tr>
+		<tr class="feature"><td class="f1"><?=_KMS_ISP_HOSTING_FEATURE_KMS_MAILING?></td><td><?=_KMS_GL_OPTIONAL?></td></tr>
+
+		</table><br>
+<div class="notice"><a href="#" onclick="$('#full_features').slideToggle('fast')"><?=_KMS_ISP_HOSTINGS_CLOSE_FEATURES?></a></div>
+     </div></td>
+     <td></td>
+</tr>
+
+
+<tr class="sep2">
+     <td class="slider_name"><?=_KMS_ISP_CONTRACT?></td>
+     <td><select id="periodicitat" name="periodicitat" onchange="setQuota()"><option value="month" selected><?=_KMS_GL_MONTHLY?></option><option value="quarter"><?=_KMS_GL_QUARTER?></option><option value="year"><?=_KMS_GL_YEAR?> (20% <?=_KMS_WEB_ECOM_OPT_DISCOUNT?>)</option></select></td>
+	<td></td>
+
+</tr>
+<tr class="sep2">
+    <td class="slider_name"><?=_KMS_ISP_HOSTINGS_SPACE?></td>
+    <td><div id="index_space"><?echo drawIndex("flex",$space_used,$bottom_space,$max_space,$top_space,"G","limit_space",20)?></div></td>
+    <td><input id='space'> GB <? if (!$new) { ?>(<?=strtolower(_KMS_GL_USED)?> <?=round($space_used)?>)<?}?></div></td>
+</tr>
+<? /*<tr>
+<td></td>
+<td style='text-align:center'>
+<div id="infonote"></div>
+<a href="#" onclick="$('#space_details').toggle()">Mostrar/ocultar detalls</a>
+</td>
+<td></td>
+</tr>
+*/?>
+<? /*
+<tr id="space_details" style="display:none">
+<td colspan=3>    <table width="100%" border="0">
+	<tr>
+	    <td class="slider_name"><?=_KMS_TY_ISP_MAILBOXES?></td>
+	    <td><?echo drawIndex("fix",$mailboxes_used,$bottom_mailboxes,$max_mailboxes,$top_mailboxes,"","limit_mailboxes",10)?></td>
+	    <td></td>
+	</tr>
+	<tr>
+	    <td class="slider_name"><?=_KMS_TY_ISP_SUBDOMAINS?></td>
+	    <td><?echo drawIndex("fix",$subdomains_used,$bottom_subdomains,$max_subdomains,$top_subdomains,"","limit_subdomains",10)?></td>
+	    <td></td>
+	</tr>
+	<tr>
+	    <td class="slider_name"><?=_KMS_TY_ISP_DATABASES?></td>
+	    <td><?echo drawIndex("fix",$databases_used,$bottom_databases,$max_databases,$top_databases,"","limit_databases",10)?></td>
+	    <td></td>
+	</tr>
+	<tr>
+	    <td class="slider_name"><?=_KMS_TY_ISP_FTPS?></td>
+	    <td><?echo drawIndex("fix",$ftps_used,$bottom_ftps,$max_ftps,$top_ftps,"","limit_ftps",10)?></td>
+	    <td></td>
+	</tr>
+	</table>
+</td>
+</tr>*/?>
+<tr class="sep2">
+    <td class="slider_name"><?=_KMS_ISP_HOSTINGS_TRANSFER?></td>
+    <td><div id="index_transfer"><?echo drawIndex("flex",$transfer_used,$bottom_transfer,$max_transfer,$top_transfer,"G","limit_transfer",20)?></div></td>
+    <td><input id="transfer"> GB <? if (!$new) {?>(<?=strtolower(_KMS_GL_USED)?> <?=round($transfer_used)?>)<?}?></td>
+</tr>
+<tr class="sep2">
+    <td class="slider_name"><?=_KMS_TY_ISP_MAILBOXES?></td>
+    <td><div id="index_mailboxes"><?echo drawIndex("flex",$mailboxes_used,$bottom_mailboxes,$max_mailboxes,$top_mailboxes,"","limit_mailboxes",10)?></div></td>
+    <td><input id="mailboxes"><? if (!$new) {?> (<?=strtolower(_KMS_GL_USED)?> <?=$mailboxes_used?>)<?}?></td>
+</tr>
+<tr class="sep2">
+    <td class="slider_name"><?=_KMS_TY_ISP_VHOSTS?></td>
+    <td><div id="index_vhosts"><?echo drawIndex("flex",$vhosts_used,$bottom_vhosts,$max_vhosts,$top_vhosts,"","limit_vhosts",10)?></div></td>
+    <td><input id="vhosts"><? if (!$new) {?> (<?=strtolower(_KMS_GL_USED)?> <?=$vhosts_used?>)<?}?></td>
+</tr>
+<tr class="sep2">
+<td></td>
+<td>
+	<div id="warn" class="warn" style="background-color:#fee;padding:5px;border:1px dotted #d00;width:550px;margin-bottom:10px;display:none"></div>
+
+<? /*	<div style="float:left;margin-top:3px;background-color:<?=$freemin_color?>;width:10px;height:10px"></div><div style="margin-left:5px;float:left"><?=_KMS_ISP_HOSTING_MANAGE_RESOURCES_MIN?></div>*/?>
+        <div style="clear:left"></div>
+        <div style="float:left;margin-top:3px;background-color:<?=$freemax_color?>;width:10px;height:10px"></div><div style="margin-left:5px;float:left"><?=_KMS_ISP_HOSTING_MANAGE_RESOURCES_MAX?></div>
+        <div style="clear:left"></div>
+<? if ($_REQUEST['action']!="new_hosting") { ?>
+        <div style="float:left;margin-top:3px;background-color:<?=$used_color?>;width:10px;height:10px"></div><div style="margin-left:5px;float:left"><?=_KMS_ISP_HOSTING_MANAGE_RESOURCES_USED?></div>
+        <div style="clear:left"></div>
+        <div style="float:left;margin-top:3px;background-color:<?=$extra_color?>;width:10px;height:10px"></div><div style="margin-left:5px;float:left"><?=_KMS_ISP_HOSTING_MANAGE_RESOURCES_OVER?></div>
+        <div style="clear:left"></div>
+<?} ?>
+</td>
+
+<td></td>
+</tr>
+
+<tr class="sep2">
+<td></td>
+<td>
+	<table width="550"><tr>
+		<td><center><div id="custom_quota"><div style='clear:left;padding-bottom:2px;'><?=_KMS_ISP_HOSTING_CUSTOM_QUOTA?></div><div id="quota"><?=$current_quota?></div><div id="quota_discount"></div></div></center></td>
+		</tr>
+	</table>
+</td>
+<td></td>
+</tr>
+<tr class="sep2">
+<td></td>
+<td width=500>
+<form>
+<input type="hidden" name="new_max_space" id="new_max_space" value="<?=$hosting_log['max_space']?>">
+<input type="hidden" name="new_max_transfer" id="new_max_transfer" value="<?=$hosting_log['max_transfer']?>">
+<input type="hidden" name="new_max_mailboxes" id="new_max_mailboxes" value="<?=$hosting_log['max_mailboxes']?>">
+<input type="hidden" name="new_max_vhosts" id="new_max_vhosts" value="<?=$hosting_log['max_vhosts']?>">
+<input type="hidden" name="max_space" id="max_space" value="<?=$hosting_log['max_space']?>">
+<input type="hidden" name="max_transfer" id="max_transfer" value="<?=$hosting_log['max_transfer']?>">
+<input type="hidden" name="max_mailboxes" id="max_mailboxes" value="<?=$hosting_log['max_mailboxes']?>">
+<input type="hidden" name="max_vhosts" id="max_vhosts" value="<?=$hosting_log['max_vhosts']?>">
+<input type="hidden" name="min_limit_space" id="min_limit_space" value="<?=$hosting_log['bottom_space']?>">
+<input type="hidden" name="min_limit_transfer" id="min_limit_transfer" value="<?=$hosting_log['bottom_transfer']?>">
+<input type="hidden" name="min_limit_mailboxes" id="min_limit_mailboxes" value="<?=$hosting_log['bottom_mailboxes']?>">
+<input type="hidden" name="min_limit_vhosts" id="min_limit_vhosts" value="<?=$hosting_log['bottom_vhosts']?>">
+<br>
+<?=_KMS_ISP_HOSTINGS_MANAGE_NOTES?><br><br>
+<input type="checkbox" name="accept" style="margin:0px;padding:0px;width:auto">&nbsp;<?=strip_tags(_KMS_ISP_HOSTING_ACCEPT)?><br><br>
+<input type="hidden" name="activate" value="1">
+<input class="customButton highlight" type="submit" name="submit" value="<?=_KMS_GL_ACCEPT?>" style="cursor:pointer;cursor:hand;width:80px;text-align:center">
+&nbsp;
+<input class="customButton" type="button" value="<?=_404_RTS?>" style="cursor:pointer;cursor:hand;width:100px;text-align:center" onclick="#document.location='/?app=<?=$_GET['app']?>&mod=isp_hostings_vhosts'">
+</form>
+</td>
+<td></td>
+</tr>
+</table>
+<div id="debug" style="background-color:#fee"></div>
+<script language="javascript">
+changeplan("standard");//default
+timer=setTimeout("document.actiu=1",1000);
+
+</script>

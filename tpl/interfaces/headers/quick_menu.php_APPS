@@ -1,0 +1,108 @@
+<table class="document" width="100%"  height="auto" border="0" cellpadding="0" cellspacing="0" style="padding:0px">
+<tr>
+<td width="100%" colspan="2" style="vertical-align:top">
+	<table class="top" border="0" style="height:25px" width="100%" cellspacing="0" cellpadding="0">
+	<tr><td>
+	<!-- home button -->
+	<ul class="mobile_menu" style="display:none"> <li class="mobile_menu_item<? if ($_GET['app']=="") echo "_selected";?>_home" onclick="document.location='/index.php'" title="<?=ucfirst($current_subdomain)." ".constant('_TY_GL_HOME')?>"><a></a></li><li class="mobile_menu_item"><? if ($_GET['mod']=="folders") echo ucfirst($current_subdomain); else echo constant("_KMS_TY_".strtoupper($_GET['mod']));?></li></ul>
+
+	<ul class="quick_menu">
+	<li class="quick_menu_item<? if ($_GET['app']=="") echo "_selected";?>_home" onclick="document.location='/index.php'" title="<?=ucfirst($current_subdomain)." ".constant('_TY_GL_HOME')?>"><a></a></li>
+		
+<?
+	//quick_menu (hem de fer-lo desplegable per a que sigui realment quick!)
+
+	$select = "SELECT * from kms_sys_apps order by sort_order";
+                                $result=mysql_query($select);
+                                $num_apps = mysql_num_rows($result);
+				$n=1;
+                                while ($row=mysql_fetch_array($result)) {
+                                $var=constant("_KMS_TY_".strtoupper($row['name']));
+                                if ($var=="") $var=$row['name'];
+//					echo "<div style='margin-top:5px;float:left'> | <a href='?app=".strtolower($row['name'])."&menu=1'>".$var."</a></div>";
+					echo " <li class=\"quick_menu_item";
+					if (strtolower($row['name'])==$_GET['app']) echo "_selected";
+					echo "\" onclick=\"document.location='?app=".strtolower($row['name'])."&menu=1'";
+					//if ($n==0) echo ";$('li.quick_menu_item_home').style('background-color','#444');";
+					echo "\"";
+					if ($n==1&&strtolower($row['name'])!=$_GET['app']&&$_GET['app']!="") echo " onmouseover=\"$('li.quick_menu_item_home').css('background-color','#666');\" onmouseout=\"$('li.quick_menu_item_home').css('background-color','transparent');\"";
+					if ($n==1&&$_GET['app']=="") echo " onmouseover=\"$('li.quick_menu_item_selected_home').css('background-color','#666');\" onmouseout=\"$('li.quick_menu_item_selected_home').css('background-color','transparent');\"";
+
+					echo ">".$var."</li>";
+					 if (strtolower($row['name'])==$_GET['app']&&$n==1) echo "<script language='javascript'>$('li.quick_menu_item_home').css('background-color','#444');</script>";             
+					$n++;
+                                }
+				echo "</ul>";
+
+ ?>
+	</a>
+	</td>
+	<!--- missatge flotant -->
+	<td align="center" style="vertical-align:middle">
+	<div class="MAIN">
+<?
+        // obtain the title of the current folder
+
+function print_title() {
+
+        if ($_GET['dr_folder']=="") $_GET['dr_folder']=0;
+        include_once ('/usr/local/kms/lib/dbi/openClientDB.php');
+//        require_once ('/usr/local/kms/lib/dbi/dbconnect.php');
+
+ 
+	 if ($title=="") {
+        $title_ = $title;
+        // titol de la carpeta
+        $result = mysql_query("SELECT description FROM kms_sys_folders WHERE id='".$_GET['dr_folder']."'");
+        if (!$result) {
+                //echo "error head.php ".mysql_error();    exit;
+                $title = $this->title;
+                } else {
+                    $rowdr = mysql_fetch_array($result);
+                    $title = $rowdr['description'];
+                    if ($title=="") $title=ucfirst($current_subdomain);
+                }
+        }
+	if ($_GET['app']!="") $title=constant('_KMS_TY_'.strtoupper($_GET['app']));
+	if ($_GET['mod']!=""&&$_GET['mod']!="folders") $title.=" - ".constant('_KMS_TY_'.strtoupper($_GET['mod']));
+        // Constants en els noms de les carpetes (per sistema multiidioma)
+        if (substr($title,0,4)=="_FL_") $title= constant($title);
+        if (substr($title,0,4)=="_KMS") $title= constant($title);
+
+        // tornem a la base de dades predefinida
+        $result = mysql_connect($_SESSION['mydb_host'],$_SESSION['mydb_user'],$_SESSION['mydb_pass']);
+        mysql_select_db ($_SESSION['mydb_name']);
+
+        $iconurl = PATH_IMG_BIG.$content_type."_big.png";
+        if (!file_exists('/usr/share'.$iconurl)) $iconurl = "/kms/css/aqua/img/big/folders_big.png";
+
+?>
+	<font style="font-size:12px;color:#3a3a3a;font-weight:bold;text-shadow:#ccc 1px 0px 0px"> <?
+	 print $title;
+	?></font>
+	<? if (isset($kms->subtitle)) { ?> <br><font style="font-size:11px;font-weight:normal"><? echo $kms->subtitle?></font> <?}?>
+<? } ?>
+
+	</td>
+        <!-- opcions top right -->
+        <td class="topoptions" width="100" valign="top">
+	<font color="#aaa" style="font-size:11px"> 
+<div style="float:right;text-align:top"><span style='color:#666'>&nbsp;| </span><a href="/?_=logout"><? echo _CMN_LOGOUT;?></a></div> <div style="float:right;text-align:top"><span style='color:#666'>&nbsp;| </span><a href="mailto:suport@intergrid.cat?subject=Support request - Intergrid KMS"><?=constant('_KMS_GL_SUPPORT')?></a></div>&nbsp;&nbsp;
+	<div  style="text-align:top;float:right"><a href="/?app=preferences&mod=sys_users&_=e&id=<?=$_SESSION['user_id']?>"><b><?=ucfirst($_SESSION['user_name']);?></b></a><span style='color:#666'>&nbsp;</span></div> 
+	</font>
+	</td>
+	</tr>
+	</table>
+</td>
+<tr>
+
+<? if ($showMenu) { ?>
+<td valign="top">
+<!-- menu  -->
+<div id="leftmenu" class="leftmenu" ></div>
+<script language="javascript">$("div#leftmenu").load("/kms/lib/menu.php");</script>
+<?// include "menu.php"; ?>
+</td>
+<? } ?>
+
+<td valign="top" height="100%" style="vertical-align:top">

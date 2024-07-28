@@ -1,0 +1,4 @@
+<Directory "/usr/share/kms/mod/emailing"> 
+Options -Indexes
+AllowOverride All
+</Directory>

@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+# tots /xxx menys blog
+RewriteRule ^((.*)$) ?feed=$1 [NC,L]
+
+# per si posem /blog
+#RewriteRule ^([blog]+)$ ?s=$1 [NC,L]
+
+# per si blog/xxxx
+#RewriteRule ^blog/([^/\.]+)$ ?s=blog&post=$1 [L]
+
+# per si blog/search/yyyy
+#RewriteRule ^blog/search/([^/]+)$ ?s=blog&a=search&q=$1 [L,NC]
+
+# per si blog/search/yyyy
+#RewriteRule ^blog/preview/([^/]+)$ ?s=blog&post=$1&preview [L,NC]
+
+
+# per si xxxx/yyyy
+#RewriteRule ^([^/]+)/([^/]+)$ ?feed=$1&post=$1&a=$2 [L,NC]
+
+</IfModule>
+

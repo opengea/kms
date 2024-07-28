@@ -1,0 +1,27 @@
+
+# SUBDOMAIN_NAME subdomain
+<VirtualHost WEBSERVER_IP:80>
+        ServerName   SUBDOMAIN_NAME.DOMAIN_NAME:80
+        ServerAdmin  "suport@intergrid.cat"
+        DocumentRoot /var/www/vhosts/DOMAIN_NAME/subdomains/SUBDOMAIN_NAME/httpdocs
+        CustomLog  /var/www/vhosts/DOMAIN_NAME/statistics/logs/access_log kmslog
+        ErrorLog  /var/www/vhosts/DOMAIN_NAME/statistics/logs/error_log
+        <FilesMatch \.php$>
+                SetHandler "proxy:unix:/var/run/php-pool/php-fpm-${VHOST}.SUBDOMAIN_NAME.socket|fcgi://localhost"
+        </FilesMatch>
+        <IfModule mod_ssl.c>
+                SSLEngine off
+        </IfModule>
+        <Directory  /var/www/vhosts/DOMAIN_NAME/subdomains/SUBDOMAIN_NAME/httpdocs>
+        DirectoryIndex index.php
+        AllowOverride All
+        <IfModule sapi_apache2.c>
+                php_admin_value sendmail_path  "/usr/sbin/sendmail -t -i -f web@DOMAIN_NAME"
+                php_admin_flag engine on
+                php_admin_flag safe_mode off
+        </IfModule>
+        </Directory>
+        Alias "/error_docs" "/var/www/vhosts/DOMAIN_NAME/error_docs"
+</VirtualHost>
+
+

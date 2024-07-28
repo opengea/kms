@@ -1,0 +1,336 @@
+
+body {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 12px;
+}
+
+td {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 12px;
+        white-space: nowrap;
+}
+
+td.wrap {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 12px;
+        white-space: normal;
+}
+
+table.wrap td {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 12px;
+        white-space: normal;
+}
+
+td.whois {
+        font-family: Verdana, sans-serif, Arial, Helvetica;
+        font-size: 12px;
+        white-space: normal;
+}
+
+div {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 12px;
+        white-space: nowrap;
+}
+
+h1 {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 22px;
+}
+
+h2 {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 18px;
+}
+
+h3 {
+        font-family: sans-serif, Arial, Helvetica;
+        font-size: 14px;
+}
+
+a.std:link {
+        font-family: sans-serif, Arial, Helvetica;
+	color: #245FA5
+}
+a.std:visited {
+        font-family: sans-serif, Arial, Helvetica;
+	color: #245FA5
+}
+a.std:active {
+        font-family: sans-serif, Arial, Helvetica;
+        color: #6DA7E7;
+	
+}
+a.std:hover {
+        font-family: sans-serif, Arial, Helvetica;
+        color: #6DA7E7;
+}
+
+a.mini {
+        font-family: sans-serif, Arial, Helvetica;
+        color: #245FA5;
+	font-size: 7px;
+	text-decoration: none;
+}
+
+font.small_red {
+        font-family: sans-serif, Arial, Helvetica;
+        color: #EE0000;
+	font-size: 10px;
+}
+
+a.unavail {
+        font-family: sans-serif, Arial, Helvetica;
+        color: #ff1818;
+	font-weight:bold;
+}
+
+div.whois {
+	width: 728px;
+	margin-top: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
+	border: 1px solid #245FA5;
+	background: #FFFFFF;
+        white-space: normal;
+        font-family: Verdana, sans-serif, Arial, Helvetica;
+}
+
+div.whois_new {
+	margin: 0px;
+	padding: 0px;
+        white-space: normal;
+}
+
+div.v_ad {
+	width:125px;
+	height:600px;
+	vertical-align:top;
+	z-index:99;
+	display: block;
+}
+
+div.showhide {
+	width:125px;
+	position:relative;
+	display:inline;
+}
+
+a.tab {
+display: block;
+width:140px;
+padding: 1px 1px 1px 1px;
+border: 1px solid #bbbbbb;
+background-color: #dddddd;
+color: #707070;
+text-decoration: none;
+}
+
+a.tab:hover {
+border: 1px solid #6DA7E7;
+background: #6DA7E7;
+color: #FFFFFF;
+}
+
+a.atab {
+display: block;
+width:140px;
+padding: 1px 1px 1px 1px;
+border: 1px solid #144F95;
+background-color: #245FA5;
+color: #FFFFFF;
+text-decoration: none;
+}
+
+a.atab:hover {
+border: 1px solid #144F95;
+background-color: #245FA5;
+color: #FFFFFF;
+}
+
+span.atab {
+border: 1px solid #144F95;
+background-color: #245FA5;
+color: #FFFFFF;
+text-decoration: none;
+}
+
+a.std_box:link {
+	border: 1px solid #245FA5;
+	text-decoration: none;
+        font-family: sans-serif, Arial, Helvetica;
+	color: #245FA5;
+	font-size: 10px;
+}
+a.std_box:visited {
+	border: 1px solid #245FA5;
+	text-decoration: none;
+        font-family: sans-serif, Arial, Helvetica;
+	color: #245FA5;
+	font-size: 10px;
+}
+a.std_box:active {
+	border: 1px solid #6DA7E7;
+	text-decoration: none;
+        font-family: sans-serif, Arial, Helvetica;
+        color: #6DA7E7;
+	font-size: 10px;
+}
+a.std_box:hover {
+	border: 1px solid #6DA7E7;
+	text-decoration: none;
+        font-family: sans-serif, Arial, Helvetica;
+        color: #6DA7E7;
+	font-size: 10px;
+}
+
+.avail_box {
+	float: right;
+}
+
+.ch {
+	cursor:pointer;
+	cursor:hand;
+}
+
+.unselected {
+background-color: #FFFFFF;
+}
+
+.selected {
+background-color: #ffffcc;
+}
+
+a.button {
+  font-size: 12px;
+  padding: 1px 5px 1px 5px;
+  border: 1px solid #707070;
+  background:#dddddd url("../include/images/button.gif") repeat-x top;
+  color: #444;                         
+  text-decoration: none;               
+}
+
+a.button:hover {
+  border: 1px solid #144F95;           
+  background:#437AB4 url("../include/images/button_on.gif") repeat-x top;
+  color: #FFFFFF;
+}
+
+input.button {
+  background-color    : #dddddd;
+  color               : #444 !important;
+  background-image    : url("../include/images/button.gif");
+  background-repeat   : repeat-x;
+  border              : 1px solid #707070;
+  font-weight         : bold;
+}
+
+input.button:hover {
+  border: 1px solid #144F95;
+  background:#437AB4 url("../include/images/button_on.gif") repeat-x top;
+  color: #FFFFFF !important;
+  cursor: pointer;
+}
+
+.popup
+{
+color: #ffffff;
+cursor: help;
+text-decoration: none
+}
+
+img.percentImage {
+ background: white url("../include/images/percentImage_back.png") top left no-repeat;
+ padding: 0;
+ margin: 0 0 0 0;
+ background-position: 1px 0;
+}
+
+img.percentImageRed {
+ background: white url("../include/images/percentImage_red_back.png") top left no-repeat;
+ padding: 0;
+ margin: 0 0 0 0;
+ background-position: 1px 0;
+}
+
+a.namecom {
+	font-size:14px;
+        font-weight: bold;
+        font-family: sans-serif, Arial, Helvetica;
+        color:black;
+        text-decoration: none;
+}
+a.namecom span.name {
+        color:#FE6A00;
+}
+a.namecom span.dot {
+        color:#7E7E7E;
+}
+a.namecom span.com {
+        color:black;
+}
+
+#menu {
+  border-bottom : 1px solid #a6bfd9;
+  margin : 0;
+  padding-bottom : 19px;
+  padding-left : 10px;
+  padding-top : 8px;
+  background: #f0f8ff;
+}
+
+#menu ul, #menu li{
+  display : inline;
+  list-style-type : none;
+  margin : 0;
+  padding : 0;
+}
+
+
+#menu a:link, #menu a:visited{
+  font-size: 13px;
+  float : left;
+  line-height : 14px;
+  margin-right : 8px;
+  padding : 3px 10px 1px 10px;
+
+}
+
+#menu a:link.active, #menu a:visited.active{
+  border : 1px solid #a6bfd9;;
+  background : #fff;
+  border-bottom : 1px solid #fff;
+  color : #333;
+  font-weight: bold;
+  text-decoration : none;
+}
+
+div.menu_header {
+  background:#5495D3 url("../include/images/menu_back.gif") repeat-x top;
+  font-weight:bold;
+  font-size:16px;
+  margin-top:0px;
+  margin-bottom:0px;
+  padding: 6px 0 5px 12px;
+  color:#fff;
+}
+
+div.menu_header a,
+div.menu_header a:visited{
+color:#fff;
+font-weight:normal;
+font-size:14px;
+}
+
+div.menu_header span.inactive {
+font-weight:normal;
+font-size:14px;
+}
+
+div.page {
+  margin-left:20px;
+  margin-right:20px;
+}

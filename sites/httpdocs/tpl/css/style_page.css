@@ -1,0 +1,297 @@
+/** style_page.css **/
+
+body,p{
+        font-family:Arial, Helvetica, sans-serif;
+        color: #828282;
+	font-size: 12px;
+}
+
+/* extranet rte */
+body#tinymce, body#tinymce p, body#tinymce h1, body#tinymce h2 {
+        color:#000; font-family:arial !important;
+}
+
+
+table { 
+	border-collapse:collapse; 
+	border-color:#828282; 
+}
+
+table td { 
+	padding:3px; 
+}
+
+div#page div#webpage_padding, div#page div#webpage_padding p, div#page div#webpage_padding li {
+	font-size: 14px;
+	line-height:170%;
+}
+
+.color1 {
+	color: #B28042;
+	    background-color:#4F1432;
+}
+
+.color2 {
+        color: #828282;
+}
+
+.color3 {
+        color: #FFFFFF;
+}
+
+p {
+        margin:0px;
+	text-align:justify;
+}
+
+div.webpage p {
+	line-height:150%;
+}
+
+div#page_content, div#page_content p {
+	text-align:justify;
+}
+
+
+
+div#page_content div.comments p,div#page_content div.comments {
+        text-align:left;
+}
+
+
+h1,h2,h3,h4,h5 {
+        font-family: Arial, Helvetica, sans-serif;
+	line-height:100%;
+	text-align:left;
+}
+
+
+h1 {
+        font-size: 19px;
+	color: #B28042;	
+	line-height:140%;
+	padding-top:0px;
+	padding-bottom:15px;
+	margin:0px;
+	font-weight:normal;
+}
+
+h2 {
+	font-size:29px;
+	color: #B28042;
+	text-align:left;
+	font-weight:bold;
+	margin:0px;
+	padding:0px;
+	margin-top:5px;
+	margin-bottom:5px;
+/*	text-shadow: black 1px 1px 0px; /* none */
+/*	font-family: web-font;*/
+	text-decoration:none;
+	padding-bottom:5px;
+}
+
+h3 {
+/*        font-family: web-font;*/
+        font-weight:none;
+        font-size:17px;
+        color:#828282;
+        text-shadow:none;
+        text-decoration:none;
+        margin:0px;
+        margin-top:10px;
+        margin-bottom:10px;
+        padding-bottom:0px;
+}   
+
+h1 a:visited {
+        color: #B28042;
+        text-decoration:none;
+}
+
+a.normal {
+        color:#555;
+}
+a.normal:visited {
+        color:#555;
+}
+a.hilighted {
+        color:#B28042;
+}
+a.red {
+        color:#AA0000;
+	font-size:11px;
+}
+
+a.clearlink {
+        color:#B28042;
+	text-decoration:underline;
+}
+
+
+a.footlink {
+        padding-left:2px;
+        padding-right:2px;
+	padding-top:2px;
+	padding-bottom:2px;
+	font-size:10px;
+	color:#B28042;
+}
+a.footlink:hover {
+        font-size:10px;
+        color:inherit;
+/*	background-color:#FFFFFF; color:#fff;*/
+}
+
+a.link_selected {
+	background-color:#828282;
+}
+
+a.logo {
+        color:inherit;
+        text-decoration:none;
+}
+
+a.logo:hover {
+        color:inherit;
+        text-decoration:none;
+}
+
+a {
+	color:#B28042;
+	text-decoration:none;
+}
+
+a:hover {
+        text-decoration:underline;
+        color: inherit;
+	background-color:inherit;
+}
+
+a:visited {
+/*	color: #00B5E6;	*/
+
+}
+
+.hilighted {
+	line-height:15px;
+        color:#B28042;
+}
+
+sup,
+sub {
+	height: 0;
+	line-height: 1;
+	vertical-align: baseline;
+	_vertical-align: bottom;
+	position: relative;
+	font-size:9px;	
+}
+
+sup {
+	bottom: 1ex;
+}
+
+sub {
+	top: .1ex;
+}
+
+ul {
+	list-style-position: inside;
+	list-style-type: disc; /* square,circle,lower-roman,decimal.. */
+/*	list-style:none;*/
+/*	list-style-image: url("../img/interface/btn_play_green.png");*/
+	text-indent:0px; 
+	padding-left:30px;
+	padding-right:20px;
+}
+
+div#page ul li {
+	padding-top:1px;
+	padding-bottom:1px;
+}
+
+li {
+/*        background-image: url("../img/interface/btn_play_green.png");*/
+        background-repeat: no-repeat;
+        background-position: 0px 2px;
+	list-style-position:outside;
+}
+
+
+div#top {
+	position:relative;
+        margin-left: auto;
+        margin-right: auto;
+        width:100%;
+        left:0px;
+        right:0px;
+}
+
+
+img {
+  border: none;
+}
+
+
+/** web form **/
+
+textarea,li.comment div.info, li.comment div.info p  {
+	color:#444;
+}
+
+input,textarea {
+	margin:0px;
+	background-color:#eee;
+	margin-bottom:5px;
+}
+textarea, input[type="text"], input[type="password"]
+{
+    font-family: Arial, Sans-Serif;
+    font-size: 13px;
+    margin:0px;
+    padding: 4px;
+    border: 0px solid #444; 
+}
+
+
+input[type="text"]:focus, #inputArea textarea:focus
+{
+    background-image: none;
+    border: 0px solid #828282;
+}
+
+input[type="password"]:focus
+{
+    background-image: none;
+    border: 0px solid #828282;
+}
+
+
+.chk_remove {
+ /*background-color:#faa;*/
+ border: solid 1px #f66;
+ width:21px;
+}
+
+ 
+
+hr {
+        background-color: #ccc;
+ 	border:0px;
+        height:1px;
+        background:transparent;
+        border-bottom:1px dotted #ccc;
+}
+
+td {
+        vertical-align:top;
+}
+
+h1 {font-size: 2em}
+h2 {font-size: 1.5em}
+h3 {font-size: 1.17em}
+h4 {font-size: 1em}
+h5 {font-size: .83em}
+h6 {font-size: .75em}
+

@@ -1,0 +1,41 @@
+#!/bin/sh -x
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+# To be run on every shell login
+clear
+echo "Intergrid Server Status"
+host=$(hostname)
+ip=$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | cut -c 21-33)
+echo "Machine name: " $host;
+echo "IP address: " $ip;
+echo ""
+free -m
+echo ""
+df -h
+echo ""
+w
+echo ""
+
+# Check processes
+
+echo "Services ( beta - falta que reconegui encara alguns serveis )";
+srv_result="";
+services=(httpd mysql nginx postfix dovecot iptables crond)
+for i in "${services[@]}"
+do
+RESULT=`ps -A | sed -n /$i/p`
+if [ "${RESULT:-null}" = null ]; then
+
+    srv_result+="Service $i is ${RED}KO${NC}\n"
+else
+    srv_result+="Service $i is ${GREEN}OK${NC}\n"
+fi
+done
+
+echo -e $srv_result | pr --output-tabs=' 1' -2 -t
+
+
+top -b -n1 | awk '/^Mem:/ {total = $2; free = $6; per = free / total * 100; print per <= 20 ? "Total: "total" | Free: "free" | Free: "int(per)"% | Status DANGER" : "OK"; exit}'

@@ -1,0 +1,29 @@
+<html>
+<head>
+<title><?=$title?></title>
+<meta name="robots" content="noindex">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8" />
+
+<? if ($ismenu) { ?>
+<link rel="stylesheet" type="text/css" href="/css/aqua/general.css" />
+<link rel="stylesheet" type="text/css" href="/css/aqua/custom.css" />
+<link rel="stylesheet" type="text/css" href="/css/aqua/layout.css" />
+<link rel="stylesheet" type="text/css" href="/css/aqua/desktop.css" />
+<link rel="stylesheet" type="text/css" href="/css/aqua/wizard.css" />
+<link rel="stylesheet" type="text/css" href="/css/aqua/misc.css" />
+<? } else { ?>
+<link rel="stylesheet" type="text/css" href="tpl/style.css" />
+<? } ?>
+<link rel="stylesheet" type="text/css" href="/lib/cal/calendar.css" />
+
+<script language="javascript" type="text/javascript" src="/lib/formManager.js"></script>
+<script language="JavaScript" type="text/javascript" src="/lib/cal/calendar.js"></script>
+<script language="JavaScript" type="text/javascript" src="/lib/cal/lang/calendar-en.js"></script>
+<script language="JavaScript" type="text/javascript" src="/lib/cal/calendar-setup.js"></script>
+<script language="JavaScript" type="text/javascript" src="/lib/rte/richtext.js"></script>
+<script language="JavaScript" type="text/javascript">
+  initRTE("/lib/rte/images/", "/lib/rte/", "");
+</script>
+</head>
+<body marginwidth="10" marginheight="0" topmargin="0" leftmargin="10">
+

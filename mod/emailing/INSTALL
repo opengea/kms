@@ -1,0 +1,52 @@
+Intergrid KMS Mailing INSTALLATION INSTRUCTIONS:
+
+
+1. Install Postfix, the best MTA available.
+2. Install mysql
+3. Import SQL database intergrid, tables kms_isp_mailings_*
+4. Install cron in /etc/crontab 
+
+#    15 3    * * *   root    /etc/cron.d/kms-mailing-cron 
+   /etc/cron.daily/kms-mailing-daily-cron
+
+    Make sure /var/log/maillog file name is correct. In debian is called mail.log, in centos maillog.
+
+5. Configure header_checks in /etc/postfix/header_checks 
+
+   /^X-MAILER: .*KMS_EMAILING/ WARN 
+
+6. Enable header_checks in /etc/postfix/main.cf
+
+   header_checks = pcre:/etc/postfix/header_checks
+
+7. Logparser!!
+
+yum install php-pear
+#ls /usr/share/pear/
+#pear config-get php_dir
+pear list-all | grep System
+pear install System_Daemon
+vi /usr/share/pear/System/Daemon.php
+yum install php-pcntl
+chmod 755 /etc/init.d/logparser
+wget http://blog.starcklin.com/files/dpkg_1.17.6.tar.xz
+tar -xf dpkg_1.17.6.tar.xz
+cd dpkg-1.17.6
+yum install ncurses-devel ncurses
+./configure
+make
+cc start-stop-daemon.c -o start-stop-daemon
+cp start-stop-daemon /usr/local/bin
+cd utils/
+make
+cc start-stop-daemon.c -o start-stop-daemon
+cp start-stop-daemon /usr/local/bin
+yum install php
+yum install php-cli
+yum install php-posix
+yum install php-pcntl
+yum install php-mysql
+php /usr/local/kms/mod/emailing/logparser.php
+service logparser restart
+
+that's all folks!

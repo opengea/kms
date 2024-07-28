@@ -1,0 +1,21 @@
+2005/11/16 - Uri Even-Chen <uri@speedy.co.il>
+             : Disabled function setfocus() when there is a query.
+
+2005/11/05 - Uri Even-Chen <uri@speedy.co.il>
+             : Modified the table HTML code.
+             : Assign height to all table rows.
+             : Added function setfocus().
+             : Added CSS classes.
+             : Moved whois.utils.php to phpwhoisutils directory.
+             : Removed IP links in function showHTML().
+
+2005/10/28 - Pasi Suominen <pasiz@pasiz.net>
+             : Added css tag to validation
+             : Added cvs tags to files
+
+2005/10/27 - Uri Even-Chen <uri@speedy.co.il>
+             : Removed XML tag from index.php.
+
+2005/10/25 - Uri Even-Chen <uri@speedy.co.il>
+             : First release - version 0.0.1
+

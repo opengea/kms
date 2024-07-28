@@ -1,0 +1,70 @@
+#!/usr/bin/php -q
+<?php
+error_reporting(0);
+include "/usr/local/kms/lib/dbi/db_localhost_connect.php";
+include "/usr/local/kms/mod/erp/erp_options.php";
+include_once "/usr/local/kms/lib/include/functions.php";
+
+// Connect to the database
+
+// Fetch recipients from the database
+$query = "SELECT * FROM kms_ecom_sales where status='pending'";
+$result = mysqli_query($dblink_local,$query);
+if (!$result)    die('Query Error: ');
+while ($ecom = mysqli_fetch_assoc($result)) {
+    $domain = $ecom['client_name'];
+
+	$query = "SELECT sr_client FROM kms_erp_contracts where description='".$domain."'";
+	$res = mysqli_query($dblink_local,$query);
+	$contract = mysqli_fetch_assoc($res);
+
+	$query = "SELECT id from kms_ent_contacts where id='".$contract['sr_client']."'";
+	$res = mysqli_query($dblink_local,$query);
+        $client = mysqli_fetch_assoc($res);
+
+	$query = "select email from kms_ent_clients where sr_client=".$client['id'];
+	$res = mysqli_query($dblink_local,$query);
+        $client = mysqli_fetch_assoc($res);
+
+	$fromName = "Intergrid SL";
+	$fromEmail = "suport@intergrid.cat";
+	$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
+	$headers .= "From: $fromName <$fromEmail>" . "\r\n";
+
+if ($ecom['lang']=="")  {
+	$subject="Comercial pendent d'enviar ".$domain;
+	$message="Fes clic aquí per posar l'idioma per al client del domini ".$domain." :<br><br><a href='https://intranet.intergrid.cat/?app=ecom&mod=ecom_sales&_=e&id=".$ecom['id']."'>Afegir idioma</a> i que aixi s'executi l'enviament the send_comercials";
+	$to="j.berenguer@intergrid.cat";
+	mail($to, $subject, $message, $headers);
+
+} else {
+	$query = "select * from kms_imark_templates where name='WP-Protect-".$ecom['lang']."'";
+	$res = mysqli_query($dblink_local,$query);
+        $template = mysqli_fetch_assoc($res);
+
+	echo $domain." ".$client['email']."\n";
+
+ $subject = $template['subject'];
+ $message = str_replace("[DOMAIN]",$domain,$template['template']);
+
+$to=$client['email'];
+
+    // Send email
+    if (mail($to, $subject, $message, $headers)) {
+        echo "Email sent successfully to $to\n";
+    } else {
+        echo "Failed to send email to $to\n";
+    }
+
+	$update = "update kms_ecom_sales set status='delivered',start_date='".date('Y-m-d')."',last_modified='".date('Y-m-d')."' where id=".$ecom['id'];
+	$res = mysqli_query($dblink_local,$update);
+
+ }
+	
+}
+
+// Close database connection
+mysqli_close($dblink_local);
+?>
+

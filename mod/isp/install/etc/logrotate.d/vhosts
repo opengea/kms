@@ -1,0 +1,13 @@
+/var/www/vhosts/*/statistics/logs/*_log {
+    weekly
+    missingok
+    rotate 2
+    compress
+    size 50M
+    delaycompress
+    notifempty
+    sharedscripts
+    postrotate
+        /sbin/service httpd reload > /dev/null 2>/dev/null || true
+    endscript
+} 

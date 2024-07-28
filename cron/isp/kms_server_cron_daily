@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo -e "======== KMS Cron Daily ========"
+
+/usr/local/kms/cron/isp/cron_daily.sh
+/usr/local/kms/cron/isp/scripts/isp_webstats.sh
+

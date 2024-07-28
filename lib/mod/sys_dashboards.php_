@@ -1,0 +1,41 @@
+<?
+
+// ----------------------------------------------
+// Class ISP Messages for KMS
+// ----------------------------------------------
+// Intergrid Tecnologies del Coneixement SL
+// by Jordi Berenguer <j.berenguer@intergrid.cat>
+// ----------------------------------------------
+
+class sys_dashboards extends mod {
+
+        /*=[ CONFIGURATION ]=====================================================*/
+
+	var $table	= "kms_sys_dashboards";
+	var $key	= "id";	
+	var $fields = array("creation_date");
+	var $orderby = "creation_date";
+
+        /*=[ PERMISSIONS ]===========================================================*/
+
+	var $can_edit   = false;
+	var $can_delete = false;
+	var $can_add    = false;
+	var $can_import = false;
+	var $can_export = false;
+
+       //*=[ CONSTRUCTOR ]===========================================================*/
+
+        function sys_dashboards($client_account,$user_account,$dm) {
+                parent::mod($client_account,$user_account,$extranet); //fa el setup
+//
+        }
+
+        function setup($client_account,$user_account,$dm) {
+		if ($_GET['panel']=="") $_GET['panel']="main.php";
+
+		include "/usr/local/kms/tpl/panels/".$_GET['app']."/".$_GET['panel'];
+
+	}
+}
+?>

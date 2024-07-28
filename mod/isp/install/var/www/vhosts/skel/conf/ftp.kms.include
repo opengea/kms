@@ -1,0 +1,46 @@
+<Directory /var/www/vhosts/DOMAIN/conf>
+    <Limit ALL>
+        DenyAll
+    </Limit>
+</Directory>
+
+<Directory /var/www/vhosts/DOMAIN/subdomains>
+    <Limit WRITE>
+        DenyAll
+    </Limit>
+</Directory>
+
+<Directory /var/www/vhosts/DOMAIN/pd>
+    <Limit ALL>
+        DenyAll
+    </Limit>
+</Directory>
+
+<Directory /var/www/vhosts/DOMAIN/web_users>
+    <Limit WRITE>
+        DenyAll
+    </Limit>
+</Directory>
+
+<Directory /var/www/vhosts/DOMAIN/statistics>
+    <Limit WRITE>
+        DenyAll
+    </Limit>
+</Directory>
+
+<Directory /var/www/vhosts/DOMAIN/subdomains/*/httpdocs>
+    <Limit WRITE>
+        AllowAll
+    </Limit>
+</Directory>
+
+<Directory /var/www/vhosts/DOMAIN/web_users/*/httpdocs>
+    <Limit WRITE>
+        AllowAll
+    </Limit>
+</Directory>
+
+<Directory /var/www/vhosts/DOMAIN/>
+Umask 022 022
+AllowOverwrite on
+</Directory>

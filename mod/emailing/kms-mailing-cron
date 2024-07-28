@@ -1,0 +1,5 @@
+#!/bin/bash
+/usr/bin/php /usr/local/kms/mod/emailing/kms_mailing_updatedb_cron.php
+echo "kms_mailing_cron OK" >> /var/log/cron
+
+#service logparser restart

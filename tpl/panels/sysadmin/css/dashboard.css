@@ -1,0 +1,10 @@
+div#panel div.content {
+    padding: 0;
+}
+
+.bg-server-group-color {
+    background-color: #7d90ae73;
+}
+.widget-min-width {
+    min-width: 325px;
+}

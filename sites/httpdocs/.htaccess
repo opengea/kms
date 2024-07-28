@@ -1,0 +1,76 @@
+#sass
+Action compile-sass /lib/phpsass/compile-apache.php
+AddHandler compile-sass .sass .scss
+
+# gzip compression
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE text/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+AddOutputFilterByType DEFLATE text/html text/xml text/css text/javascript
+
+# expires
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresDefault                          "access plus 1 month"
+  ExpiresByType text/cache-manifest       "access plus 0 seconds"
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/xml                  "access plus 0 seconds"
+  ExpiresByType application/xml           "access plus 0 seconds"
+  ExpiresByType application/json          "access plus 0 seconds"
+  ExpiresByType application/rss+xml       "access plus 1 hour"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType image/gif                 "access plus 1 month"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/jpg                 "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType video/ogg                 "access plus 1 year"
+  ExpiresByType audio/ogg                 "access plus 1 year"
+  ExpiresByType video/mp4                 "access plus 1 year"
+  ExpiresByType video/webm                "access plus 1 year"
+  ExpiresByType text/x-component          "access plus 1 month"
+  ExpiresByType font/ttf                  "access plus 1 year"
+  ExpiresByType font/truetype             "access plus 1 year"
+  ExpiresByType font/opentype             "access plus 1 year"
+  ExpiresByType application/x-font-woff   "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType text/javascript           "access plus 1 year"
+  <IfModule mod_headers.c>
+    Header append Cache-Control "public"
+  </IfModule>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+# Intergrid KMS Sites .htacesss file
+RewriteEngine on
+# exclusions
+RewriteCond %{REQUEST_URI} ^/tpl/ [OR]
+RewriteCond %{REQUEST_URI} ^/config [OR]
+RewriteCond %{REQUEST_URI} ^/fonts [OR]
+RewriteCond %{REQUEST_URI} ^/css/ [OR]
+RewriteCond %{REQUEST_URI} ^/img/ [OR]
+RewriteCond %{REQUEST_URI} ^/files [OR]
+RewriteCond %{REQUEST_URI} ^/js/ [OR]
+RewriteCond %{REQUEST_URI} ^/.well-known/ [OR]
+RewriteCond %{REQUEST_URI} ^/old_web/ [OR]
+RewriteCond %{REQUEST_URI} ^/lib/
+RewriteRule .* - [L]
+# parametres
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ ?l=$1 [L,NC]
+RewriteRule ^([^/]+)/([^/]+)/?$ ?l=$1&s=$2 [L,NC]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/?$ ?l=$1&s=$2&p=$3 [L,NC]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ ?l=$1&s=$2&p=$3&a=$4 [L,NC]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ ?l=$1&s=$2&p=$3&a=$4&b=$5 [L,NC]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ ?l=$1&s=$2&p=$3&a=$4&b=$5&c=$6 [L,NC]
+</IfModule>
+

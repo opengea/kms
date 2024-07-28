@@ -1,0 +1,32 @@
+        <ul id="menu">
+                <li>
+                        <a href="#">Aules</a>
+                        <ul>
+				<li><a href="#" onclick="loadObject('b','0','folders','0','main_tab','','')">&Agrave;necs</a></li>
+                                <li><a href="#" onclick="loadHTML('tab3','clients | proveidors | usuaris | contactes',this,'opc2')">Cargols</a></li>
+                                <li><a href="#" onclick="loadHTML('tab3','pressupostos | ',this,'opc2')">Conillets</a></li>
+                                <li><a href="#">Formigues</a></li>
+                                <li><a href="#">Granotes</a></li>
+                                <li><a href="#">Peixos</a></li>
+				<li><a href="#" onclick="loadHTML('tab3','project management',this,'opc2')">Pinguins</a></li>
+                                <li><a href="#">Tortugues</a></li>
+                        </ul>
+                </li>
+		 <li>
+                        <a href="#">Eines</a>
+                        <ul>
+                                <li><a href="#">Mailings</a></li>
+                        </ul>
+                </li>
+
+                <li>
+                        <a href="#">Administraci&oacute;</a>
+                        <ul>
+                                <li><a href="#">Albums de fotos</a></li>
+                                <li><a href="#">Usuaris</a></li>
+                                <li><a href="#">Grups</a></li>
+                                <li><a href="#">Mailings</a></li>
+                        </ul>
+                </li>
+        </ul>
+

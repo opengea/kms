@@ -1,0 +1,26 @@
+
+# SUBDOMAIN_NAME subdomain
+<VirtualHost 78.47.205.217:80>
+        ServerName   SUBDOMAIN_NAME.DOMAIN_NAME:80
+        ServerAdmin  "suport@intergrid.cat"
+        DocumentRoot /var/www/vhosts/DOMAIN_NAME/subdomains/SUBDOMAIN_NAME/httpdocs
+        CustomLog  /var/www/vhosts/DOMAIN_NAME/statistics/logs/access_log kmslog
+        ErrorLog  /var/www/vhosts/DOMAIN_NAME/statistics/logs/error_log
+        <IfModule mod_ssl.c>
+                SSLEngine off
+        </IfModule>
+        <Directory  /var/www/vhosts/DOMAIN_NAME/subdomains/SUBDOMAIN_NAME/httpdocs>
+        <IfModule sapi_apache2.c>
+                php_admin_flag engine on
+                php_admin_flag safe_mode off
+                php_admin_value open_basedir "/var/www/vhosts/DOMAIN_NAME/subdomains/SUBDOMAIN_NAME/httpdocs:/tmp"
+        </IfModule>
+        <IfModule mod_php5.c>
+                php_admin_flag engine on
+                php_admin_flag safe_mode off
+                php_admin_value open_basedir "/var/www/vhosts/DOMAIN_NAME/subdomains/SUBDOMAIN_NAME/httpdocs:/tmp"
+        </IfModule>
+                Options -Includes -ExecCGI
+        </Directory>
+        Alias "/error_docs" "/var/www/vhosts/DOMAIN_NAME/error_docs"
+</VirtualHost>

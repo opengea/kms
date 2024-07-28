@@ -1,0 +1,34 @@
+<?
+
+// ----------------------------------------------
+// Class ISP Database Check list for KMS
+// ----------------------------------------------
+// Intergrid Tecnologies del Coneixement SL
+// by Jordi Berenguer <j.berenguer@intergrid.cat>
+// ----------------------------------------------
+
+class isp_databases_check extends mod {
+
+        /*=[ CONFIGURATION ]=====================================================*/
+
+	var $table = "kms_isp_databases";
+	var $key = "id";	
+	var $fields = array("name","login","vhost_id","db_server","type");
+	var $orderby = "name";
+
+        /*=[ PERMISSIONS ]===========================================================*/
+
+	var $can_view = false;
+	var $can_edit = false;
+	var $can_delete = false;
+	var $can_add = false;
+	var $can_import = false;
+	var $can_export = false;
+
+       //*=[ CONSTRUCTOR ]===========================================================*/
+
+        function setup($client_account,$user_account,$dm) {
+		$this->page_rows = 25;
+		$this->setComponent("xcombo","vhost_id",array("xtable"=>"kms_isp_hostings_vhosts","xkey"=>"vhost_id","xfield"=>"name"));			}
+}
+?>
