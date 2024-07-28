@@ -13,6 +13,9 @@ Before you begin, ensure you have the following:
 - A Unix-like operating system (Linux, macOS, etc.)
 - Root or sudo access to the system
 - Git installed on your system
+- Web server (Apache  or Nginx)
+- MySQL Database
+- PHP >5.0
 
 ## Step-by-Step Installation
 
@@ -23,6 +26,18 @@ First, clone the repository to your local machine. Open a terminal and run the f
 ```bash
 git clone https://github.com/intergridsl/kms.git /usr/local/kms
 ```
+
+### 2. Configure your Web Server 
+
+Map the /usr/local/kms folder using an alias folder /kms or to your preferred domain
+Create a database with the SQL structure 
+
+### 3. Setup the kms.conf
+
+Customize your database access and preferences into the file /etc/kms/kms.conf file
+
+### 4. Run your installation
+
 
 # Contributing
 
