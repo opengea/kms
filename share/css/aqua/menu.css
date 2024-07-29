@@ -1,0 +1,260 @@
+body {
+  font-family:  Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
+
+div.leftmenu {
+        background-color:#999999;
+}
+
+ul#leftmenu, ul#leftmenu ul {
+  list-style-type:none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+ul#leftmenu, ul#leftmenu {
+height:100%;
+
+}
+
+ul#leftmenu {
+	padding-top:0px;
+	bottom:0px;
+}
+
+ul#leftmenu a {
+  display: block;
+  text-decoration: none;	
+}
+
+ul#leftmenu li {
+  margin-top: 0px;
+}
+
+ul#leftmenu li {
+/*  background: #999;*/
+  font-weight:bold;
+  height:auto;
+  font-size:11px;
+  padding: 0px;
+  padding-left: 0px;
+/* background-image: url(/kms/tpl/default/styles/aqua/img/interface/menu_button_back_dark.png); */
+  background-image: url('/kms/css/aqua/img/interface/navtitle-closed_bg.png');
+/*  background-repeat: repeat-x repeat-y;*/
+  background-repeat:no-repeat;
+  background-position: -10px 0px;
+  border-bottom-width: 0px;
+  border-bottom-style: solid;
+  border-bottom-color:transparent;
+  border-top-width: 0px;
+  border-top-style: solid;
+  border-top-color:transparent;
+}
+
+ul#leftmenu.menu_xml li {
+	background-image: none;
+}
+
+ul#leftmenu li div.menu_icon {
+	float:left;
+	padding-top:2px;
+}
+
+ul#leftmenu li div.menu_name {
+	float:left;
+	padding-top:4px;
+	padding-left:5px;
+}
+div#kmsbody div.menu_name p { margin:0px !important; }
+
+ul#leftmenu li:hover {
+/*  background: #3d81ce;*/
+  background-image: url('/kms/css/aqua/img/interface/navtitle-closed_bg_white.png');
+  background-repeat:no-repeat;
+  background-position: -10px 0px;
+}
+
+
+ul#leftmenu li:hover  {
+  	color: #fff;
+	cursor:pointer;
+}
+
+ul#leftmenu li  {
+	color:#666;
+}
+
+ul#viewchange_left li {
+	list-style: none;
+	white-space: nowrap;
+	background-image:none;
+	padding:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+ul#viewchange_left li a {
+        background-image:none;
+        padding:0px;
+}
+
+ul#viewchange_left li:hover {
+        background-image:none;
+}
+
+
+ul#leftmenu li a#planner_button {
+  padding-left:20px;
+  padding-top: 6px;
+  color:#fff;
+  padding-bottom: 6px;
+  background-image: url(/kms/css/aqua/img/interface/menu_button_back_blue_dark.png);
+  background-repeat: no-repeat;
+  background-position: 0px;
+  margin:0px;
+  border:0px;
+}
+ul#leftmenu li a#new_task_button {
+  background-image: url(/kms/css/aqua/img/interface/menu_button_back_red_dark.png);
+  background-repeat: no-repeat;
+  background-position: 0px;
+  color: #ffffff;
+  padding-left:20px;
+  padding-top:6px;
+  padding-bottom:6px;
+  margin:0px;
+  border:0px;
+}
+
+/*--- submenus ----*/
+ul#leftmenu li ul#viewchange_left li a {
+  overflow:hidden;
+  color: #444;
+  font-size:11px;
+  padding-left: 20px;
+  background-image:  none;
+  background-repeat: no-repeat;
+  background-position: 0px;
+  font-weight:normal;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+
+ul#leftmenu li ul#viewchange_left li:hover, ul#category li.sub:hover {
+	 background-image:  none;
+	 background-color:#c1ced4;
+}
+
+ul#leftmenu li ul#viewchange_left li.selected, li.sub_selected div#butmenu {
+         background-image:  none;
+         background-color:#4c74b6;
+	 color:#fff;
+}
+
+ul#leftmenu li ul#viewchange_left li.selected a, ul#category li.sub_selected div#menu_selected {
+         color:#fff;
+         text-shadow:#1D428F 1px 1px 0px;
+	 text-shadow:none;
+}
+
+
+.code { border: 1px solid #ccc; list-style-type: decimal-leading-zero; padding: 5px; margin: 0; }
+.code code { display: block; padding: 3px; margin-bottom: 0; }
+.code li { background: #ddd; border: 1px solid #ccc; margin: 0 0 2px 2.2em; }
+.indent1 { padding-left: 1em; }
+.indent2 { padding-left: 2em; }
+
+#leftmenu {
+        position:relative;
+	height:auto;
+	float:left;
+        top:0px;
+        z-index:2;
+        float:left;
+	width:200px;
+	background-color:#D6DDE5; /*C3D0DF*/
+	vertical-align:top;
+} 
+ 
+#leftmenu ul li a img {
+	vertical-align:middle;
+	width:20px;
+	height:20px;
+}
+
+.menuSwitcher {
+        position:relative;
+	float:left;
+        width:6px;
+        height:auto;
+        top:0px;
+        left:0px;
+        margin-left:0px;
+        color:#888888;
+        background-color:#e8e8e8;
+        z-index:11;
+        pointer:cursor;
+        background-image:url('/kms/css/aqua/img/interface/body_bg.gif');
+}
+
+.application {
+        float:left;
+
+}
+
+div#butmenu.category {
+	background-image: url('/kms/css/aqua/img/interface/hover_item_bar.png');
+        background-position:-9px 0px;	
+}
+
+div#butmenu.category div#menu {
+	color:#fff;
+}
+
+ul#leftmenu li:hover {
+	background-image: url('/kms/css/aqua/img/interface/hover_item_bar.png');
+	background-position:-9px 0px;
+}
+
+ul#leftmenu.menu_xml li:hover {
+        background-image:none;
+}
+
+
+
+/*ul#leftmenu.menu_xml li.selected, ul#leftmenu li.selected {*/
+ul#leftmenu li.selected { /*, ul#leftmenu.menu_xml li.sub_selected { */
+  /*	background-image: url('/kms/css/aqua/img/interface/navtitle-closed_bg_white.png');*/
+	background-image: url('/kms/css/aqua/img/interface/selected_item_bar.png');
+      /*  background-color:#3d81ce;*/
+	background-position:-9px 0px;
+        cursor:pointer;
+}
+
+div#menu_selected {
+	text-shadow:#1D428F 1px 1px 0px;
+        color:#fff;	
+}
+
+ul#category div#menu_selected {
+	color:#444;
+	text-shadow: #eee 1px 1px 0px;
+}
+
+div#butmenu {
+        padding-left:15px;
+	height:22px;
+}
+ul#leftmenu.menu_xml div#menu_selected ul#viewchange_left { 
+	color:#444;
+	text-shadow: #eee 1px 1px 0px;
+}
+
+ul#leftmenu.menu_xml li.sub div#butmenu div.menu_name {
+        color:#444;
+	text-shadow: #eee 1px 1px 0px;
+}
+

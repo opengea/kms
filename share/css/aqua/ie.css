@@ -1,0 +1,28 @@
+/* ---------- big icon buttons  --------- */
+.toolsArea .commonButton {
+  display: inline;
+}
+.formArea .toolsArea .commonButton span,
+.toolsArea .commonButton span {
+  display: inline-block;
+}
+.screenButtons {
+  word-spacing: 0;
+}
+
+/* ---------- small icon buttons  --------- */
+.listArea .buttons .commonButton button, {
+  text-indent: 25px;
+}
+#dashboard .dBox .buttons .commonButton,
+.controlVisibilityToolbar .misc .commonButton,
+.listArea .buttons .commonButton,
+.reportTools .commonButton,
+.uplevel .commonButton {
+  background-position: 0 6px;
+}
+.uplevel .commonButton {
+  margin-left: 5px;
+}
+
+

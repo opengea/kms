@@ -1,0 +1,175 @@
+body {
+  padding: 0 0 0 6px;
+  margin: 0px;
+  margin-top: -1px;
+}
+
+#navArea img {
+  display: block;
+  margin: 0;
+}
+
+#navArea {
+  padding-top: 0px;
+}
+
+#navArea .node img,
+#navArea .nodeActive img {
+  display: inline;
+  vertical-align: middle;
+  margin: 0px;
+}
+
+/* opened tab */
+
+.navOpened {
+}
+
+.navTitle,
+.navTitleOver {
+  cursor: pointer;
+  cursor: hand;
+  -moz-user-select: none;
+}
+
+.navOpened .navTitle,
+.navOpened .navTitleOver {
+  height: 23px;
+}
+
+.navOpened .navTitle .titleText {
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.navOpened .navTitleOver .titleText {
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.navOpened .titleLeft {
+  width: 14px;
+  vertical-align: left;
+}
+
+.navOpened .titleRight {
+  width: 0px;
+  vertical-align: top;
+}
+
+.navOpened .titleHandle {
+}
+
+.navClosed {
+}
+
+.navClosed .navTitle,
+.navClosed .navTitleOver {
+  height: 23px;
+}
+
+.navTitle .titleHandle,
+.navTitleOver .titleHandle {
+  width: 20px;
+}
+
+.navClosed .navTitle .titleText,
+.navClosed .navTitleOver .titleText {
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.navClosed .titleLeft {
+  width: 14px;
+  vertical-align: top;
+}
+
+.navClosed .titleRight {
+  width: 3px;
+  vertical-align: top;
+}
+
+.navClosed .titleHandle {
+}
+
+div.tree {
+margin-bottom: 10px;
+}
+
+.navOpened .tree {
+  display: block;
+}
+
+.navClosed .tree {
+  display: none;
+}
+
+.node,
+.nodeActive {
+  margin-top: 0px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.node .name,
+.nodeActive .name {
+  padding: 2px 3px;
+  margin-left: 2px;
+}
+
+.nodeActive {
+  background-image: url(../../images/nodeactive_bg.gif);
+  background-position: left;
+  background-repeat: repeat-x;
+}
+
+.nodeImage {
+  background-position: right; 
+  background-repeat: no-repeat;
+  padding-left: 23px;
+  width: 38px;
+}
+
+#navLayout .nodeActive .name a,
+#navLayout .nodeActive .name a:hover,
+#navLayout .nodeActive .name a:visited,
+#navLayout .nodeActive .name a:active {
+  text-decoration: none;
+}
+
+#navLayout .name a,
+#navLayout .name a:hover,
+#navLayout .name a:visited,
+#navLayout .name a:active {
+  text-decoration: none;
+}
+
+.navOpened {
+  background-image: url(../../images/navtitle-opened_bg.gif);
+  background-position: left top;
+  background-repeat: repeat-x;
+}
+
+.navClosed {
+  background-image: url(../../images/navtitle-closed_bg.gif);
+  background-position: left top;
+  background-repeat: repeat-x;
+}
+
+.titleText {
+  padding-left: 8px;
+}
+
+/* ---- add new styles here ---- */
+
+.navOpened .tree #contexthelp {
+table-layout: fixed;
+width: 85%;
+}
+
+#contexthelp {
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+

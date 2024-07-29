@@ -1,0 +1,195 @@
+%!Adobe-FontList 1.14
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Suitcase
+FontName:AvantGarde-Medium
+OutlineFileName:\AvantGarde-Medium
+ResourceID:7671
+MacStyle:0
+FileLength:31590
+FileModTime:1373464577
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Suitcase
+FontName:AvantGardeLT-Bold
+OutlineFileName:\AvantGardeLT-Bold
+ResourceID:7669
+MacStyle:0
+FileLength:14455
+FileModTime:1373464577
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Suitcase
+FontName:AvantGardeLT-Book
+OutlineFileName:\AvantGardeLT-Book
+ResourceID:33
+MacStyle:0
+FileLength:17577
+FileModTime:1373464577
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Suitcase
+FontName:AvantGardeLT-Demi
+OutlineFileName:\AvantGardeLT-Demi
+ResourceID:130
+MacStyle:0
+FileLength:13365
+FileModTime:1373464577
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:AvantGardeLT-Bold
+FamilyName:ITC Avant Garde Gothic LT
+StyleName:Bold
+MenuName:ITC Avant Garde Gothic LT
+StyleBits:2
+WeightClass:700
+WidthClass:5
+AngleClass:0
+FullName:ITC Avant Garde Gothic LT Bold
+WritingScript:Roman
+OutlineFileName:\AvantGarLTBol
+DataFormat:POSTResource
+UsesStandardEncoding:yes
+isCFF:no
+FileLength:47825
+FileModTime:1027440777
+DesignSize:-1
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:AvantGardeLT-Book
+FamilyName:ITC Avant Garde Gothic LT
+StyleName:Book
+MenuName:ITC Avant Garde Gothic LT
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:ITC Avant Garde Gothic LT Book
+WritingScript:Roman
+OutlineFileName:\AvantGarLTBoo
+DataFormat:POSTResource
+UsesStandardEncoding:yes
+isCFF:no
+FileLength:49951
+FileModTime:1027440614
+DesignSize:-1
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:AvantGardeLT-Demi
+FamilyName:ITC Avant Garde Gothic LT
+StyleName:Demi
+MenuName:ITC Avant Garde Gothic LT
+StyleBits:2
+WeightClass:600
+WidthClass:5
+AngleClass:0
+FullName:ITC Avant Garde Gothic LT Demi
+WritingScript:Roman
+OutlineFileName:\AvantGarLTDem
+DataFormat:POSTResource
+UsesStandardEncoding:yes
+isCFF:no
+FileLength:52522
+FileModTime:1027440615
+DesignSize:-1
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:AvantGarde-Medium
+FamilyName:ITC Avant Garde Gothic
+StyleName:Medium
+MenuName:AvantGarde Medium
+StyleBits:0
+WeightClass:500
+WidthClass:5
+AngleClass:0
+FullName:ITC Avant Garde Gothic Medium
+WritingScript:Roman
+OutlineFileName:\AvantGarMed
+DataFormat:POSTResource
+UsesStandardEncoding:yes
+isCFF:no
+FileLength:26860
+FileModTime:1327491513
+DesignSize:-1
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:MinionPro-Regular
+FamilyName:Minion Pro
+StyleName:Regular
+MenuName:Minion Pro
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Minion Pro
+WritingScript:Roman
+OutlineFileName:\MinionPro-Regular.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+FileLength:231312
+FileModTime:1340711032
+DesignSize:110
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Roboto-Bold
+FamilyName:Roboto
+StyleName:Bold
+MenuName:Roboto
+StyleBits:2
+WeightClass:700
+WidthClass:5
+AngleClass:0
+FullName:Roboto Bold
+WritingScript:Roman
+OutlineFileName:\Roboto-Bold.ttf
+DataFormat:sfntData
+FileLength:135820
+FileModTime:1406536946
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Roboto-Regular
+FamilyName:Roboto
+StyleName:Regular
+MenuName:Roboto
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Roboto Regular
+WritingScript:Roman
+OutlineFileName:\Roboto-Regular.ttf
+DataFormat:sfntData
+FileLength:145348
+FileModTime:1406536946
+%EndFont
+

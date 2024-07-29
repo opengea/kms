@@ -1,0 +1,67 @@
+.listArea .buttons .commonButton,
+.reportTools .commonButton,
+.uplevel .commonButton {
+	padding: 6px 0 0 0;
+	vertical-align: baseline;
+}
+
+.listArea .buttons .misc .commonButton,
+.uplevel .commonButton {
+	padding: 8px 0 0 0;
+}
+
+.listArea .buttons .commonButton button,
+.reportTools .commonButton button,
+.uplevel .commonButton button {
+	padding: 0 0 0 0;
+	vertical-align: baseline;
+}
+
+.listArea .buttons .misc,
+.reportTools .misc {
+  padding-bottom: 9px;
+}
+
+.buttons input {
+  vertical-align: top;
+	margin-bottom: 8px;
+}
+
+#fldset-power {
+	margin-left: 405px;
+}
+
+.reportTools>table .commonButton {
+	background-position: 0 0;
+	padding: 3px 0 3px 0;
+}
+
+
+fieldset > legend {
+  margin-left: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+}
+
+fieldset#fldset-power > legend {
+	padding-left: 30px;
+}
+
+tbody.showVisibility tr,
+.visibilityAdminMode tbody.adminOnlyVisibility tr,
+.visibilityControlMode tbody.customizableControl tr {
+  display: table-row;
+}
+
+.hideVisibility tr,
+.hideByDefault tr,
+.adminOnlyVisibility tr {
+  display: none;
+}
+
+tbody.hideVisibility,
+tbody.hideByDefault,
+tbody.adminOnlyVisibility {
+  display: table-row-group;
+}
+

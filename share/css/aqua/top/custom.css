@@ -1,0 +1,91 @@
+body {
+  background-color: #ffffff;
+  background-image:  url(../../images/top_bg.gif);
+  background-position: right;
+  background-repeat: no-repeat;  
+  padding-top: 50px;
+}
+
+.body {
+  background-image:  url(../../images/top_body_bg.jpg);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  margin: 0;
+}
+
+#topLogin .body {
+  background-image:  none;
+}
+
+#topTxtBlock {
+  display:none;
+
+}
+
+#topCopyright {
+
+  display: none;
+
+}
+
+#topTxtBanner {
+  display: none;
+
+}
+
+#topTxtLogout {
+  display: -moz-inline-box;
+  display: inline-block;
+  border-left: 1px solid #868b93;
+  background-image: url('../../images/nav_logout.gif');
+  background-position: 9px 6px;
+  background-repeat: no-repeat;
+  padding-left: 11px;
+  padding-top: 7px;
+  padding-bottom: 6px;
+  vertical-align: top;
+  margin-top: 10px;
+  text-align: left;
+}
+
+#topCopyright a {
+  text-align: right;
+  display: block;
+  white-space: nowrap;
+}
+
+#topCopyright a:link,
+#topCopyright a:active,
+#topCopyright a:visited {
+  text-decoration: none;
+  font-size: 11px;
+  color: #9b9fa6;
+}
+
+#topTxtBanner a {
+  display: none;
+
+}
+
+#topTxtBanner a:link,
+#topTxtBanner a:active,
+#topTxtBanner a:visited {
+
+  display: none;
+}
+
+#topTxtLogout a {
+  display: block;
+  white-space: nowrap;
+}
+
+#topTxtLogout a:link,
+#topTxtLogout a:active,
+#topTxtLogout a:visited {
+display: none;
+}
+
+.topLogo {
+  position: absolute;
+  left: 0px;
+}

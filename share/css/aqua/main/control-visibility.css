@@ -1,0 +1,184 @@
+.controlVisibilityArea {
+  position: relative;
+  overflow: visible;
+  text-decoration: none;
+  z-index: 0;
+  word-spacing: normal;
+}
+.controlVisibilityActive {
+  z-index: 100;
+}
+.visibilityControlMode .toolsArea .controlVisibilityArea {
+  float: left;
+  background-color: transparent;
+  margin-bottom: 10px;
+}
+.visibilityControlMode .toolsArea .controlVisibilityLayout,
+.visibilityControlMode .formControlVisibility .controlVisibilityLayout {
+  display: block;
+  position: absolute;
+  height: 67px;
+  border-bottom: solid 1px #F9F8F8;
+  border-right: solid 1px #F9F8F8;
+  border-left: solid 1px #F9F8F8;
+}
+
+.visibilityControlMode .formControlVisibility .controlVisibilityLayout {
+border-width: 0px;
+}
+
+.controlVisibilityLayout {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 111px;
+}
+
+.visibilityControlMode .toolsArea .controlVisibilityArea:hover {
+  background-color: transparent;
+}
+
+.visibilityControlMode .toolsArea .controlVisibilityArea:hover .commonButton {
+  height: 66px;
+}
+.visibilityControlMode .toolsArea .defaultVisibility:hover .commonButton {
+  border-bottom: solid 1px #c6d5f4;
+}
+.visibilityControlMode .toolsArea .showVisibility:hover .commonButton {
+  border-bottom: solid 1px #339900;
+}
+.visibilityControlMode .toolsArea .adminOnlyVisibility:hover .commonButton {
+  border-bottom: solid 1px #ff9900;
+}
+.visibilityControlMode .toolsArea .hideVisibility:hover .commonButton {
+  border-bottom: solid 1px #ff0000;
+}
+
+.visibilityControlMode .toolsArea .controlVisibilityArea .commonButton {
+  background-position: center 5px;
+  padding: 0;
+  height: 67px;
+}
+.visibilityControlMode .toolsArea .commonButton {
+  height: 79px;
+  width: 111px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: block;
+  float: left;
+}
+.visibilityControlMode .toolsArea .controlVisibilityArea .commonButton span {
+  padding-top: 36px;
+  display: block;
+}
+
+.controlVisibilityOptions {
+  position: absolute;
+  top:19px;
+  left: 0;
+  width: 111px;
+  display: none;
+  z-index: 200;
+}
+.controlVisibilityActive .controlVisibilityOptions {
+  display: block;
+}
+.controlVisibilityOptions ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.controlVisibilityOptions li {
+  cursor: pointer;
+  display: block;
+  height: 14px;
+  border-bottom: solid 1px #c9c8c8;
+  vertical-align: middle;
+  line-height: 14px;
+  font-size: 9px;
+  padding-left: 7px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 104px;
+  background-color: #ffffff;
+  background-position: 97px 3px;
+  background-repeat: no-repeat;
+  color: #000000;
+}
+.controlVisibilityOptions li.activeVisibilityOption {
+  background-color: #f2f2f2;
+}
+.controlVisibilityOptions li:hover {
+  background-color: #f2f2f2;
+}
+.hideVisibilityOption {
+  background-image: url(/kms/css/aqua/img/vo_hide_bg.gif);
+}
+.adminOnlyVisibilityOption {
+  background-image: url(/kms/css/aqua/img/images/vo_admin-only_bg.gif);
+}
+.showVisibilityOption {
+  background-image: url(/kms/css/aqua/img/images/vo_show_bg.gif);
+}
+.defaultVisibilityOption {
+  background-image: url(/kms/css/aqua/img/images/vo_default_bg.gif);
+}
+
+.toolsArea .controlVisibilityHeader {
+  position: relative;
+}
+
+.controlVisibilityHeader {
+  cursor: pointer;
+  height: 10px;
+  line-height: 10px;
+  padding: 4px 3px;
+  width: 104px;
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: solid 1px #ffffff;
+  filter:alpha(opacity=60);
+  -moz-opacity:.60;
+  opacity:.60;
+}
+.defaultVisibility .controlVisibilityHeader {
+  background-color: #c6d5f4;
+  color: #213df8;
+}
+
+.showVisibility .controlVisibilityHeader {
+  background-color: #339900;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.adminOnlyVisibility .controlVisibilityHeader {
+  background-color: #ff9900;
+  color: #ffffff;
+  font-weight: bold;
+}
+.hideVisibility .controlVisibilityHeader {
+  background-color: #ff0000;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.visibilityControlMode .formFields .customizableControl .formControlVisibility td {
+  padding: 6px 0 0 0;
+  height: 25px;
+  background-color: transparent;
+}
+.visibilityControlMode .formFields .customizableControl td {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  background-color: #e6e6e6;
+}
+.visibilityControlMode .formFields .customizableControl td.name,
+.visibilityControlMode .formFields .customizableControl td.nameError, {
+  padding-top: 14px;
+  padding-bottom: 11px;
+  padding-left: 3px;
+}

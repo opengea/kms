@@ -1,0 +1,274 @@
+
+html, body, a, img  {
+    margin                : 0px;
+    padding               : 0px;
+    color                 : #666666;
+    font-family           : sans-serif;
+    font-size             : 12px;
+    border                : none;
+}
+
+div#loading-message {
+     display: none;
+     position:absolute !important;
+     z-index:9999;
+     width:100%;height: calc(100% - 60px);
+  text-align: center;
+  background-color: rgba(255,255,255, 0.71);
+ color:#fff;
+}
+div#loading-message img { position:absolute; top:49%; width: 50px;opacity: 50%; }
+
+.text_default_color {
+    color                 : #666666;	
+}
+
+a  {
+	  color                 : #990101;
+	  text-decoration       : none;
+}
+
+hr  {
+    height                : 1px;
+    background-color      : #CCCCCC;
+    border                : none;
+    margin-top            : 10px;
+    margin-bottom         : 10px;
+}
+
+/*  set background to white to have correct layout, also if client has a browser-theme with black default-background  */
+body  {
+    background            : #F2F2F2;
+}
+    
+a:hover  {
+    text-decoration       : underline;
+}
+
+.top {
+	background-image:-webkit-linear-gradient(top, #AEAEAE 0px, #8F8F8F 100%);
+	 background-image:-moz-linear-gradient(top, #AEAEAE 0px, #8F8F8F 100%);
+}
+strong.underline {
+    text-decoration       : underline;
+}
+
+.box, .box_wide, .box_login  {
+    border                : none;
+    margin-bottom         : 0px;
+}
+
+div.box_login form#login {
+	margin-top:10px;
+}
+.box_login  {
+    width                 : 450px;
+    border                : 1px solid #666; /*16F*/
+	 -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 8px 8px 6px 6px;
+}
+
+.box  {
+    width                 : 190px;
+}
+
+.box_title, .box_title_no_hover  {
+    background-image      : -webkit-linear-gradient(top, #666 0px, #444 100%);
+    background-image	  :    -moz-linear-gradient(top, #666 0px, #444 100%);
+    background-repeat     : repeat-x;
+    -webkit-border-radius: 7px 7px 0px 0px; -moz-border-radius: 7px 7px 0px 0px; border-radius: 7px 7px 0px 0px;
+    vertical-align        : middle;
+    font-weight           : bold;
+    height                : 25px;
+    color		  : #eee;
+    padding               : 0px 0px 0px 10px;
+    z-index               : 300;
+    border                : 0px;
+    width                 : 100%;
+    border-spacing        : 0px;
+}
+
+.box_content  {
+    background            : #FFFFFF;
+    padding               : 10px 10px 10px 10px;
+    font-size             : 12px;
+    border-top            : none;
+}
+
+.box_content_text  {
+    text-indent           : 0;
+    clear                 : left;
+}
+
+.box_content_login  {
+    background            : #FFFFFF;
+    padding               : 10px 10px 10px 10px;
+    font-size             : 12px;
+    -webkit-border-radius: 0px 0px 5px 5px; -moz-border-radius: 0px 0px 5px 5px; border-radius: 0px 0px 5px 5px;
+}
+
+img.logo {
+	padding-top:4px;
+}
+
+.topoptions font,.topoptions,.topoptions span {
+	color:#eee;
+	font-size:11px;
+	font-family:sans-serif;
+}
+
+#startpage_login  {
+	  background            : #F2F2F2;
+    margin                : 0;
+    overflow              : hidden;
+}
+
+#center  {
+    position              : relative;
+    top:0px;
+    width                 : 100%;
+    margin-top            : 0px;
+}
+
+.startpage_login_verlauf_short  {
+    position              : relative; top: 100px;
+    background-image      : -webkit-linear-gradient(top, #777 0px, #bbc 170px, #bbc 185px, #999 100%);
+    background-image      :    -moz-linear-gradient(top, #777 0px, #bbc 170px, #bbc 185px, #999 100%);
+    background: -o-linear-gradient(#555, #999);
+    background: -ms-linear-gradient(#555, #999);/*For IE10*/
+    background: linear-gradient(#555, #999);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#222222', endColorstr='#555555');/*For IE7-8-9*/ 
+    height: 1%;/*For IE7*/ 
+    height                : 250px;
+}
+
+.startpage_login_verlauf  {
+    position              : relative; top:0px;
+    background-attachment : fixed;
+    margin                : 0 auto;
+    width                 : 5px;
+}
+
+.startpage_login_logo {
+    position              : relative; top: -130px; left: 20%;
+    background-repeat     : no-repeat;
+    width                 : 200px;
+    height                : 51px;
+}      
+
+.startpage_login_form  {
+    position              : relative; top: -175px; left: 40%;
+    color                 : #666666;
+    width                 : 50%;
+    height                : 0px;
+    margin-bottom         : 0px;
+}
+
+
+.startpage_login_form a  {
+    position              : relative; top: 5px;
+    color                 : #999;
+}
+
+.startpage_button {
+    border                : none;
+}
+
+.button {
+	border-radius: 4px 4px 4px 4px;
+	box-sizing: content-box;
+	-moz-border-radius: 4px 4px 4px 4px;
+	-moz-box-sizing: content-box;
+	height: 18px;
+	width: auto;
+	border: 1px solid #046EC7;
+	color: white;
+	background-image:-webkit-linear-gradient(top, #6F99CD 0px,  #3F64B1 100%);
+        background-image:-moz-linear-gradient(top, #6F99CD 0px,  #3F64B1 100%);
+	font-weight: bold;
+	margin-right: 10px;
+	cursor:pointer;
+	cursor:hand;
+	padding-bottom:2px;
+}
+.button:hover {
+	background-image:-webkit-linear-gradient(top,  #5F89BD 0px,  #2F54A1 100%);
+	background-image:-moz-linear-gradient(top,  #5F89BD 0px,  #2F54A1 100%);
+}
+
+div#startpage_login_form table.form {
+width: 100%;
+}
+div#startpage_login_form table {
+border-collapse: separate;
+border-spacing: 2px;
+}
+div#startpage_login_form table.form tr td.label, table.form tr td.label_req {
+border-bottom: 1px solid #CCC;
+}
+
+#startpage_footer {
+	width:100%;position:absolute;top:500px;
+	padding-bottom:50px;
+}
+#login_center {
+	margin:auto;left:0px;right:0px;width:440px;
+}
+.element {
+padding-left: 20px;
+vertical-align: top;
+}
+.label_req, .request_label_req {
+	padding-right: 20px;
+	font-weight: bold;
+	width:130px;
+}
+div#startpage_login_form select, div#startpage_login_form input[type=text],div#startpage_login_form input[type=password] {
+	width:150px;
+	height: 21px;
+}
+
+div#startpage_footer a, div#startpage_footer a:visited, div#startpage_footer a:link {
+	color:#999;
+	text-decoration:underline;
+}
+
+.password {
+  font-family           : monospace;
+}
+
+div.isp_hostings.new_hosting div#application_contents {
+	background-image: url('/kms/css/aqua/img/backgrounds/cloud-background.png');
+	background-repeat: repeat-x;
+	background-position-y: -200px;
+}
+
+input.order {
+	margin:4px;
+	text-align:center;
+	width:90px;
+	border:0px;
+	height:25px;
+	font-size:12px;
+	background-image: -webkit-linear-gradient(top,#528CCE,#0054B0 100%);
+	background-image: -moz-linear-gradient(top, #528CCE,#0054B0 100%);
+	color:#fff;
+	cursor:pointer;
+	cursor:hand;
+}
+
+input.order:hover {
+	background-image: -webkit-linear-gradient(top,#427CBE,#003490 100%);
+	background-image: -moz-linear-gradient(top, #427CBE,#003490 100%);
+}
+div.ctr {
+        float:right;
+        font-size:11px;
+        font-weight:normal;
+        padding-right:20px;
+	color:#C9CFD8;
+}
+
+table.limits input.numericbox {
+	text-align:right;
+	width:60px;
+}

@@ -1,0 +1,29 @@
+.pathbar {
+  display: none;
+}
+
+.screenTitle td {
+	font-size: 14px;
+	font-family: Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+   color: #000000;
+	padding-top: 10px;
+}
+
+.wizardTitle {
+  font-size: 18px;
+  font-family: "Franklin Gothic Medium", Verdana, Geneva, Arial, Helvetica, sans-serif;
+  color: #1a4286;
+  background-repeat: no-repeat;
+  background-color: #edf1f4;
+  background-position: 10px 4px;
+  border-bottom: 1px solid #1a4286;
+  padding: 10px 20px;
+} 
+
+.screenSubTitle {
+	padding-left: 10px;
+	padding-bottom: 10px;
+	background-color: #ffffff;
+	border-bottom: 1px solid #aaaaaa;
+}
